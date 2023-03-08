@@ -149,8 +149,11 @@ export default function Checkout(props: ok) {
 
   useEffect(() => {
     const saved = localStorage.getItem("wishlists");
-    // handleWishlistsView(saved)
-    handleView(saved);
+    if(saved) {
+      handleView(saved)
+    } else {
+      localStorage.setItem("wishlists", "[]")
+    }
   }, []);
 
   useEffect(() => {

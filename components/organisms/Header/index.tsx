@@ -74,7 +74,11 @@ export default function Header(props: Partial<HeaderProps>) {
   function showCart(state: boolean) {
     setCartActive(!cartActive);
     const saved = localStorage.getItem("wishlists")
-    handleView(saved)
+    if(saved) {
+      handleView(saved)
+    } else {
+      localStorage.setItem("wishlists", "[]")
+    }
   }
 
   function countTotal() {
@@ -94,7 +98,11 @@ export default function Header(props: Partial<HeaderProps>) {
       localStorage.setItem("wishlists", JSON.stringify(wishlists))
     }
     const saved = localStorage.getItem("wishlists")
-    handleView(saved)
+    if(saved) {
+      handleView(saved)
+    } else {
+      localStorage.setItem("wishlists", "[]")
+    }
   }
 
   const handleView = (async(saved: any) => {
@@ -111,8 +119,12 @@ export default function Header(props: Partial<HeaderProps>) {
 
   useEffect(() => {
     const saved = localStorage.getItem("wishlists")
+    if(saved) {
+      handleView(saved)
+    } else {
+      localStorage.setItem("wishlists", "[]")
+    }
     // handleWishlistsView(saved)
-    handleView(saved)
   }, [])
 
   useEffect(() => {

@@ -182,9 +182,13 @@ export default function Catalogues() {
 
   useEffect(() => {
     const saved = localStorage.getItem("wishlists");
-    if (JSON.parse(saved || '')) {
-      const parsedSaved = JSON.parse(saved || '');
-      setWishlists([...wishlists, ...parsedSaved]);
+    if(saved) {
+      if (JSON.parse(saved || '')) {
+        const parsedSaved = JSON.parse(saved || '');
+        setWishlists([...wishlists, ...parsedSaved]);
+      } else {
+        localStorage.setItem("wishlists", "[]")
+      }
     } else {
       localStorage.setItem("wishlists", "[]")
     }
