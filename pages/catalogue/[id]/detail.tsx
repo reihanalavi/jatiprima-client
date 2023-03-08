@@ -285,6 +285,8 @@ export default function CatalogueDetail() {
     if(JSON.parse(saved || [] as never)) {
       const parsedSaved = JSON.parse(saved || [] as never)
       setWishlists([...wishlists, ...parsedSaved])
+    } else {
+      localStorage.setItem("wishlists", "[]")
     }
   }, [])
 

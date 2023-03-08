@@ -185,6 +185,8 @@ export default function Catalogues() {
     if (JSON.parse(saved || '')) {
       const parsedSaved = JSON.parse(saved || '');
       setWishlists([...wishlists, ...parsedSaved]);
+    } else {
+      localStorage.setItem("wishlists", "[]")
     }
   }, []);
 
