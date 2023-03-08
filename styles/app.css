@@ -10219,6 +10219,7 @@ ul.slick-dots li.slick-active button {
 .shop-details .product-info .product-meta>span span,
 .shop-details .product-info .product-meta>span a {
   font-weight: 500;
+  display: inline-block;
   color: #000;
   text-transform: uppercase;
   margin-left: 5px;
