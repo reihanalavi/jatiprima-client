@@ -425,7 +425,7 @@ export default function CatalogueDetail() {
                           </div>
 
                           <div className="product-info col-lg-5 col-md-12 col-12 ">
-                            <h1 className="title">Bora Armchair</h1>
+                            <h1 className="title">{catalogue?.name}</h1>
                             <span className="price">
                               <span>
                                 <NumericFormat
