@@ -92,7 +92,7 @@ export default function Footer() {
                             <Link href="https://instagram.com/jatiprima.furniture">Instagram</Link>
                             </li>
                             <li>
-                            <Link href="https://id-id.facebook.com/pages/biz/jepara/Prima-Jati-Furniture-1054554994585369/">Facebook</Link>
+                            <Link href="https://www.facebook.com/jatiprima.furniture?mibextid=ZbWKwL">Facebook</Link>
                             </li>
                         </ul>
                         </div>
