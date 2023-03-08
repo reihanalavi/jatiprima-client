@@ -1,0 +1,40 @@
+{
+  "name": "jatiprima-client",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "export": "npm run build && next export && mv out _static"
+  },
+  "dependencies": {
+    "@next/font": "13.1.6",
+    "@types/node": "18.11.18",
+    "@types/react": "18.0.27",
+    "@types/react-dom": "18.0.10",
+    "axios": "^1.3.3",
+    "bootstrap": "^5.2.3",
+    "classnames": "^2.3.2",
+    "eslint": "8.33.0",
+    "eslint-config-next": "13.1.6",
+    "jquery": "^3.6.3",
+    "next": "13.1.6",
+    "react": "18.2.0",
+    "react-bootstrap": "^2.7.0",
+    "react-dom": "18.2.0",
+    "react-helmet": "^6.1.0",
+    "react-icons": "^4.7.1",
+    "react-number-format": "^5.1.3",
+    "react-slick": "^0.29.0",
+    "slick": "^1.12.2",
+    "slick-carousel": "^1.8.1",
+    "tsc": "^2.0.4",
+    "typescript": "^4.9.5"
+  },
+  "devDependencies": {
+    "@types/react-helmet": "^6.1.6",
+    "@types/react-slick": "^0.23.10"
+  }
+}
