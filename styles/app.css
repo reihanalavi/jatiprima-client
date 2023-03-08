@@ -1110,11 +1110,11 @@ body i.slick-arrow.fa-angle-right {
 }
 
 body i.slick-arrow.fa-angle-left:before {
-  content: "\e91a";
+  content: "<";
 }
 
 body i.slick-arrow.fa-angle-right:before {
-  content: "\e91b";
+  content: ">";
 }
 
 .loading:before {
@@ -9782,7 +9782,7 @@ ul.slick-dots li.slick-active button {
 }
 
 .shop-details .product-images .main-image .slick-arrow.fa-angle-left:before {
-  content: "\f104";
+  content: "<";
 }
 
 .shop-details .product-images .main-image .slick-arrow.fa-angle-right {
@@ -9790,7 +9790,7 @@ ul.slick-dots li.slick-active button {
 }
 
 .shop-details .product-images .main-image .slick-arrow.fa-angle-right:before {
-  content: "\f105";
+  content: ">";
 }
 
 .shop-details .product-info {

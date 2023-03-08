@@ -47,7 +47,7 @@ export default function Keys() {
                                 </div>
                                 <div className="box-title-wrap">
                                   <h3 className="box-title">
-                                    14 Day Returns
+                                    Fast Response Seller
                                   </h3>
                                 </div>
                               </div>

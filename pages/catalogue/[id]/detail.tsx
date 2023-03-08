@@ -238,6 +238,23 @@ export default function CatalogueDetail() {
 
   const [wishlists, setWishlists] = useState<any>([])
 
+  const [slickClick, setSlickClick] = useState(false)
+  const [slickIndex, setSlickIndex] = useState(0)
+
+  const slider2 = useRef(null)
+
+  function syncSlick(i: number) {
+    setSlickClick(true)
+    setSlickIndex(i)
+  }
+  
+  useEffect(() => {
+    if(slickClick) {
+      (slider2.current as any).slickGoTo(slickIndex, false)
+      setSlickClick(false)
+    }
+  })
+
   const addToCartClass = cx({
     "button alt": true,
     "single-add-to-cart-button": addToCart === false,
@@ -376,10 +393,13 @@ export default function CatalogueDetail() {
                                       className="image-thumbnail slick-carousel slick-vertical"
                                     >
                                       {catalogue?.foto &&
-                                        catalogue?.foto.map((item: FotoCatalogueTypes) => (
+                                        catalogue?.foto.map((item: FotoCatalogueTypes, i: number) => (
                                           <div
                                             className="img-item slick-slide"
-                                            key={item.fotoName}
+                                            key={i}
+                                            onClick={(e) => {
+                                              syncSlick(i)
+                                            }}
                                           >
                                             <span className="img-thumbnail-scroll">
                                               <Image
@@ -399,6 +419,7 @@ export default function CatalogueDetail() {
                                 <div className="scroll-image main-image">
                                   {catalogue?.foto && (
                                     <Slider
+                                    ref={slider2}
                                       {...sliderSetting2}
                                       className="image-additional slick-carousel"
                                     >
