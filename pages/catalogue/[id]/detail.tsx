@@ -20,10 +20,11 @@ import BackToTop from "@/components/molecules/Back To Top";
 
 export interface CatalogueDetailProps {
   catalogue: any,
-  colors: any
+  colors: any,
+  urlOG: any
 }
 
-export default function CatalogueDetail({ catalogue, colors }: CatalogueDetailProps) {
+export default function CatalogueDetail({ catalogue, colors, urlOG }: CatalogueDetailProps) {
   const sliderSetting3 = {
     arrow: true,
     nextArrow: <Arrow right />,
@@ -327,7 +328,7 @@ export default function CatalogueDetail({ catalogue, colors }: CatalogueDetailPr
           name="og:title"
           content={`${catalogue?.name} - Jati Prima Furniture`}
         />
-        <meta name="og:image" content={catalogue?.foto?.at(0)?.fotoURL} />
+        <meta name="og:image" content={`https://www.jatiprimafurniture.com/_next/image?url=https%3A%2F%2Fjatiprima-server.s3.ap-southeast-1.amazonaws.com%2Ffoto%2F${urlOG}&w=1920&q=75`} />
         <meta name="og:url" content={`https://jatiprimafurniture.com/catalogue/${catalogue?._id}/detail`} />
         <meta name="og:description" content={catalogue?.metaDeskripsi} />
       </Head>
@@ -641,7 +642,7 @@ export async function getStaticProps({ params }: getStaticProps) {
     props: {
       catalogue: data.data,
       colors: data.data.warnas,
-      // activeColor: data.data.warnas?.at(0)?.name,
+      urlOG: (data.data.foto?.at(0)?.fotoName).replace(/:/g, '%3A').replace(/\//g, '%2F').replace(/ /g, '%2520').replace(/\(/g, '%2528').replace(/\)/g, '%2529')
     },
   };
 }
