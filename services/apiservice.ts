@@ -21,18 +21,39 @@ export async function getCatalogueDetail(id: string) {
     return axiosResponse
 }
 
-export async function getCatalogueByCategory(valueParams: string) {
+export async function getCatalogueByCategory(keyParams: string, valueParams: string) {
     let params = ''
-    if(valueParams === 'all') {
-        params = ''
+    if(keyParams === 'search') {
+        if(valueParams === '') {
+            params = ''    
+        } else {
+            params = `?search=${valueParams}`
+        }
+    } else if(keyParams === 'id') {
+        if(valueParams === 'all') {
+            params = ''
+        } else {
+            params = `?id=${valueParams}`
+        }
     } else {
-        params = `?id=${valueParams}`
+        params = ''
     }
 
     const ENDPOINT = `catalogues${params}`;
     const response = await axios.get(`${ROOT_API}/${API_V}/${ENDPOINT}`);
 
     const axiosResponse = response.data
+
+    return axiosResponse
+}
+
+export async function getCatalogueIds() {
+    
+    const ENDPOINT = `catalogueids`;
+    const response = await axios.get(`${ROOT_API}/${API_V}/${ENDPOINT}`);
+
+    const axiosResponse = response.data
+    console.log("RESPONSE : ", axiosResponse)
 
     return axiosResponse
 }

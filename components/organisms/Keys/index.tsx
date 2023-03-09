@@ -14,7 +14,7 @@ export default function Keys() {
                               <div className="box">
                                 <div className="box-icon">
                                   <span>
-                                  <Image alt='' width={30} height={30} src="/boxicon.svg"></Image>
+                                  <Image alt='jatiprima product' width={25} height={25} src="/chair-solid.svg"></Image>
                                   </span>
                                 </div>
                                 <div className="box-title-wrap">
@@ -28,7 +28,7 @@ export default function Keys() {
                               <div className="box">
                                 <div className="box-icon">
                                   <span>
-                                  <Image alt='' width={30} height={30} src="/boxicon.svg"></Image>
+                                  <Image alt='jatiprima payment' width={30} height={30} src="/credit-card-regular.svg"></Image>
                                   </span>
                                 </div>
                                 <div className="box-title-wrap">
@@ -42,7 +42,7 @@ export default function Keys() {
                               <div className="box">
                                 <div className="box-icon">
                                   <span>
-                                  <Image alt='' width={30} height={30} src="/boxicon.svg"></Image>
+                                  <Image alt='jatiprima person' width={20} height={20} src="/person-solid.svg"></Image>
                                   </span>
                                 </div>
                                 <div className="box-title-wrap">

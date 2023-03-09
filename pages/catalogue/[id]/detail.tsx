@@ -6,6 +6,7 @@ import Header from "@/components/organisms/Header";
 import {
   getCatalogueByCategory,
   getCatalogueDetail,
+  getCatalogueIds,
 } from "@/services/apiservice";
 import { EtalaseTypes, FotoCatalogueTypes } from "@/services/data-types";
 import Image from "next/image";
@@ -322,7 +323,7 @@ export default function CatalogueDetail({ catalogue, colors, urlOG }: CatalogueD
   return (
     <>
       <Head>
-        <title>{catalogue?.name} - Jati Prima Furniture</title>
+        <title>{`${catalogue?.name} - Jati Prima Furniture`}</title>
         <meta name="description" content={catalogue?.metaDeskripsi} />
         <meta
           name="og:title"
@@ -511,6 +512,7 @@ export default function CatalogueDetail({ catalogue, colors, urlOG }: CatalogueD
                                       max=""
                                       name="quantity"
                                       value={qty}
+                                      defaultValue={1}
                                       title="Qty"
                                       size={4}
                                       placeholder=""
@@ -599,11 +601,8 @@ export default function CatalogueDetail({ catalogue, colors, urlOG }: CatalogueD
                     </div>
                   </div>
                 </div>
-                {/* <!-- #content --> */}
               </div>
-              {/* <!-- #primary --> */}
             </div>
-            {/* <!-- #main-content --> */}
           </div>
         </div>
         <Footer />
@@ -613,15 +612,15 @@ export default function CatalogueDetail({ catalogue, colors, urlOG }: CatalogueD
   );
 }
 
-export async function getStaticPaths(params: any) {
-  const data = await getCatalogueByCategory("all");
+export async function getStaticPaths() {
+  const data = await getCatalogueIds();
   const paths = data.data.map((item: any) => ({
     params: {
       id: item._id,
     },
   }));
 
-  console.log("PATHS : ", paths);
+
   return {
     paths,
     fallback: false,
@@ -637,7 +636,6 @@ interface getStaticProps {
 export async function getStaticProps({ params }: getStaticProps) {
   const { id } = params;
   const data = await getCatalogueDetail(id);
-  console.log("DATA SERVER SIDE : ", data);
   return {
     props: {
       catalogue: data.data,

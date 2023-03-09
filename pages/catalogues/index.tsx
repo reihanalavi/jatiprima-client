@@ -1,7 +1,7 @@
 import CatalogueItems from "@/components/molecules/CatalogueItems";
 import Footer from "@/components/organisms/Footer";
 import Header from "@/components/organisms/Header";
-import { getCatalogueByCategory } from "@/services/apiservice";
+import { getCatalogueByCategory, getCatalogueIds } from "@/services/apiservice";
 import { EtalaseTypes } from "@/services/data-types";
 import Image from "next/image";
 import Link from "next/link";
@@ -121,8 +121,8 @@ export default function Catalogues() {
 
   const { query, isReady } = useRouter();
 
-  const getCatalogue = useCallback(async (valueParams: string) => {
-    const data = await getCatalogueByCategory(valueParams);
+  const getCatalogue = useCallback(async (keyParams: string, valueParams: string) => {
+    const data = await getCatalogueByCategory(keyParams, valueParams);
     setCatalogues(data.data);
     setTotal(data.total);
     setCategoryActive(data.categoryActive);
@@ -172,8 +172,11 @@ export default function Catalogues() {
   useEffect(() => {
     if (isReady) {
       let id = query.id
+      let search = query.search
       if (query.id) {
         onTabClick(id as any);
+      } else if(query.search) {
+        getCatalogue('search', query.search as any)
       } else {
         onTabClick('all')
       }
@@ -211,13 +214,13 @@ export default function Catalogues() {
       decision = value;
     }
     setTab(decision);
-    getCatalogue(decision);
+    getCatalogue('id', decision);
   };
 
   return (
     <>
     <Head>
-        <title>{categoryActive ? categoryActive : 'Katalog'} - Jati Prima Furniture</title>
+        <title>{`${categoryActive ? categoryActive : "Browse"} - Jati Prima Furniture`}</title>
         <meta name="description" content={'Cari katalog mebel Jepara di Jati Prima Furniture'} />
         <meta name="og:title" content={`${categoryActive ? categoryActive : 'Katalog'} - Jati Prima Furniture`} />
         <meta name="og:image" content="/media/hero_jp.jpeg" />
@@ -238,7 +241,7 @@ export default function Catalogues() {
                   <div className="section-container">
                     <div className="content-title-heading">
                       <h1 className="text-title-heading">
-                        {categoryActive ? categoryActive : "Browse"}
+                        {categoryActive ? categoryActive : (query.search ? `Search for ${query.search}` : "Browse")}
                       </h1>
                     </div>
                     <div className="breadcrumbs">
@@ -266,7 +269,7 @@ export default function Catalogues() {
                                 <ul>
                                   {categories &&
                                     categories.map((item: any) => (
-                                      <li className="current">
+                                      <li className="current" key={item._id}>
                                         <a role='button'
                                           onClick={() => onTabClick(item._id)}
                                         >
@@ -299,6 +302,7 @@ export default function Catalogues() {
                                   {catalogues &&
                                     catalogues.map((item: EtalaseTypes) => (
                                       <CatalogueItems
+                                      key={item._id}
                                         id={item._id}
                                         name={item.name}
                                         foto={item.foto}
@@ -348,7 +352,7 @@ export default function Catalogues() {
                                   className="slick-sliders image-additional"
                                 >
                                   <div className="img-thumbnail slick-slide">
-                                    <a
+                                    <Link
                                       href={`/catalogue/${qvItem?._id}/detail`}
                                       className="image-scroll"
                                       title=""
@@ -356,13 +360,13 @@ export default function Catalogues() {
                                       <Image
                                         width={660}
                                         height={660}
-                                        src={qvItem?.foto.at(0)?.fotoURL!}
-                                        alt={qvItem?.foto.at(0)?.fotoALT!}
+                                        src={qvItem?.foto.at(0)?.fotoURL! || '/media/jp_logo.png'}
+                                        alt={qvItem?.foto.at(0)?.fotoALT! || ''}
                                       />
-                                    </a>
+                                    </Link>
                                   </div>
                                   <div className="img-thumbnail slick-slide">
-                                    <a
+                                    <Link
                                       href={`/catalogue/${qvItem?._id}/detail`}
                                       className="image-scroll"
                                       title=""
@@ -370,10 +374,10 @@ export default function Catalogues() {
                                       <Image
                                         width={660}
                                         height={660}
-                                        src={qvItem?.foto.at(1)?.fotoURL!}
-                                        alt={qvItem?.foto.at(1)?.fotoALT!}
+                                        src={qvItem?.foto.at(1)?.fotoURL! || '/media/jp_logo.png'}
+                                        alt={qvItem?.foto.at(1)?.fotoALT! || ''}
                                       />
-                                    </a>
+                                    </Link>
                                   </div>
                                 </Slider>
                               </div>
@@ -389,9 +393,6 @@ export default function Catalogues() {
                         </h1>
                         <div className="price-single">
                           <div className="price">
-                            {/* <del>
-                              <span>Rp {qvItem?.price}</span>
-                            </del> */}
                             <span>
                             <NumericFormat value={parseInt(qvItem?.price || '')} displayType='text' prefix='Rp ' thousandSeparator=',' decimalSeparator='.'/>
                               </span>

@@ -1,4 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Image from "next/image";
 import Logo from "./Logo";
 import MenuItem, { SubMenuType, SubMenuValue } from "./Menu Item";
@@ -7,6 +13,11 @@ import { CartItemsProps, EtalaseTypes } from "@/services/data-types";
 import CartItems from "@/components/molecules/Cart Items";
 import Link from "next/link";
 import { NumericFormat } from "react-number-format";
+import { debounce } from "lodash";
+import debouce from "lodash.debounce";
+import { getCatalogueByCategory } from "@/services/apiservice";
+import SearchHeaderItems from "@/components/molecules/SearchHeaderItems";
+import SearchSidebarItems from "@/components/molecules/SearchSidebarItems";
 
 interface HeaderProps {
   menus: MenusProps[];
@@ -30,20 +41,40 @@ export default function Header(props: Partial<HeaderProps>) {
   const [statusCatalog, setStatusCatalog] = useState(true);
   const [ariaHidden, setAriaHidden] = useState(true);
 
-  const [isWishlists, setIsWishlists] = useState(false)
-  const [wishlists, setWishlists] = useState([])
-  const [totalWishlists, setTotalWishlists] = useState(0)
-  const [wishlistsItem, setWishlistsItem] = useState(0)
+  const [isWishlists, setIsWishlists] = useState(false);
+  const [wishlists, setWishlists] = useState([]);
+  const [totalWishlists, setTotalWishlists] = useState(0);
+  const [wishlistsItem, setWishlistsItem] = useState(0);
+
+  const [searchMobile, setSearchMobile] = useState(false);
+  const [search, setSearch] = useState("");
+
+  const [searchedCatalogue, setSearchedCatalogue] = useState([]);
+
+  const resultSearchProductsClass = cx({
+    "result-search-products": true,
+    "d-block": search,
+  });
+
+  const resultSearchBoxClass = cx({
+    "result-search-products-content": true,
+    "d-block": search,
+  });
+
+  const searchOverlayClass = cx({
+    "search-overlay": true,
+    "search-visible": searchMobile,
+  });
 
   const cartEmptyClass = cx({
     "cart-empty-wrap": true,
-    "d-none": isWishlists === true
-  })
+    "d-none": isWishlists === true,
+  });
 
   const cartClass = cx({
     "cart-list-wrap": true,
-    "d-none": isWishlists === false
-  })
+    "d-none": isWishlists === false,
+  });
 
   const panelClass = cx({
     "mm-panel": true,
@@ -68,68 +99,90 @@ export default function Header(props: Partial<HeaderProps>) {
 
   const cartCountClass = cx({
     "cart-count": true,
-    "d-none": wishlistsItem == 0
-  })
+    "d-none": wishlistsItem == 0,
+  });
 
+  const handleChange = useCallback(async (event: any) => {
+    setSearch(event.target.value);
+
+    if (event.target.value !== "") {
+      const data = await getCatalogueByCategory("search", event.target.value);
+      if (data.data) {
+        setSearchedCatalogue([]);
+        setSearchedCatalogue(data.data);
+      }
+    } else {
+      setSearchedCatalogue([]);
+    }
+  }, []);
+
+  const deboncedResults = useMemo(() => {
+    return debouce(handleChange, 300);
+  }, []);
+
+  useEffect(() => {
+    deboncedResults.cancel();
+  });
+  
   function showCart(state: boolean) {
     setCartActive(!cartActive);
-    const saved = localStorage.getItem("wishlists")
-    if(saved) {
-      handleView(saved)
+    const saved = localStorage.getItem("wishlists");
+    if (saved) {
+      handleView(saved);
     } else {
-      localStorage.setItem("wishlists", "[]")
+      localStorage.setItem("wishlists", "[]");
     }
   }
 
   function countTotal() {
-    let total = 0
-    wishlists.map((item: CartItemsProps) => (
+    let total = 0;
+    wishlists.map(
+      (item: CartItemsProps) =>
+        (total += parseInt(item.item.price) * item.quantity)
+    );
 
-      total += parseInt(item.item.price) * (item.quantity)
-      ))
-      
-      return total
+    return total;
   }
-  
+
   function removeFromCart(item: never) {
-    const index = wishlists.indexOf(item, 0)
-    if(index > -1) {
-      wishlists.splice(index, 1)
-      localStorage.setItem("wishlists", JSON.stringify(wishlists))
+    const index = wishlists.indexOf(item, 0);
+    if (index > -1) {
+      wishlists.splice(index, 1);
+      localStorage.setItem("wishlists", JSON.stringify(wishlists));
     }
-    const saved = localStorage.getItem("wishlists")
-    if(saved) {
-      handleView(saved)
+    const saved = localStorage.getItem("wishlists");
+    if (saved) {
+      handleView(saved);
     } else {
-      localStorage.setItem("wishlists", "[]")
+      localStorage.setItem("wishlists", "[]");
     }
   }
 
-  const handleView = (async(saved: any) => {
-    if(saved?.length!! > 2) {
-      setIsWishlists(true)
-      setWishlists(JSON.parse(saved!!))
-      setWishlistsItem(wishlists.length)
-      setTotalWishlists(countTotal())
+  const handleView = async (saved: any) => {
+    if (saved?.length!! > 2) {
+      setIsWishlists(true);
+      setWishlists(JSON.parse(saved!!));
+      setWishlistsItem(wishlists.length);
+      setTotalWishlists(countTotal());
     } else {
-      setWishlistsItem(wishlists.length)
-      setIsWishlists(false)
+      setWishlistsItem(wishlists.length);
+      setIsWishlists(false);
     }
-  })
+  };
 
   useEffect(() => {
-    const saved = localStorage.getItem("wishlists")
-    if(saved) {
-      handleView(saved)
+    const saved = localStorage.getItem("wishlists");
+    if (saved) {
+      handleView(saved);
     } else {
-      localStorage.setItem("wishlists", "[]")
+      localStorage.setItem("wishlists", "[]");
     }
     // handleWishlistsView(saved)
-  }, [])
+  }, []);
 
   useEffect(() => {
     setTotalWishlists(countTotal());
-  }, [countTotal])
+  }, [countTotal]);
 
   return (
     <>
@@ -211,7 +264,7 @@ export default function Header(props: Partial<HeaderProps>) {
                   </div>
                 </div>
                 <div className="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-6 header-center">
-                  <Logo mobile/>
+                  <Logo mobile />
                 </div>
 
                 {/* Shop Button and Modal */}
@@ -221,7 +274,7 @@ export default function Header(props: Partial<HeaderProps>) {
                       <div
                         className="remove-cart-shadow"
                         onClick={() => {
-                          showCart(!cartActive)
+                          showCart(!cartActive);
                         }}
                       ></div>
                       <a
@@ -232,12 +285,14 @@ export default function Header(props: Partial<HeaderProps>) {
                         aria-haspopup="true"
                         aria-expanded="false"
                         onClick={() => {
-                          showCart(!cartActive)
+                          showCart(!cartActive);
                         }}
                       >
                         <div className="icons-cart">
                           <i className="icon-large-paper-bag"></i>
-                          <span className={cartCountClass}>{wishlistsItem}</span>
+                          <span className={cartCountClass}>
+                            {wishlistsItem}
+                          </span>
                         </div>
                       </a>
                       <div className={dropdownCartClass}>
@@ -257,18 +312,28 @@ export default function Header(props: Partial<HeaderProps>) {
                         </div>
                         <div className={cartClass}>
                           <ul className="cart-list ">
-                            {(wishlists) ?
-                                  wishlists.map((item) => {
-                                    return <CartItems cart={item}  onClick={() => removeFromCart(item)}/>
-
-                                  })
-                                  : ''}
+                            {wishlists
+                              ? wishlists.map((item) => {
+                                  return (
+                                    <CartItems
+                                      cart={item}
+                                      onClick={() => removeFromCart(item)}
+                                    />
+                                  );
+                                })
+                              : ""}
                           </ul>
                           <div className="total-cart">
                             <div className="title-total">Total: </div>
                             <div className="total-price">
                               <span>
-                                <NumericFormat value={totalWishlists} displayType='text' prefix='Rp ' thousandSeparator=',' decimalSeparator='.'/>
+                                <NumericFormat
+                                  value={totalWishlists}
+                                  displayType="text"
+                                  prefix="Rp "
+                                  thousandSeparator=","
+                                  decimalSeparator="."
+                                />
                               </span>
                             </div>
                           </div>
@@ -299,17 +364,17 @@ export default function Header(props: Partial<HeaderProps>) {
           <div className="header-mobile-fixed">
             {/* <!-- Shop --> */}
             <div className="shop-page">
-              <a href="shop-grid-left.html">
+              <Link href="/catalogues">
                 <i className="wpb-icon-shop"></i>
-              </a>
+              </Link>
             </div>
 
             {/* <!-- Search --> */}
-            {/* <div className="search-box">
+            <div className="search-box" onClick={() => setSearchMobile(true)}>
               <div className="search-toggle">
                 <i className="wpb-icon-magnifying-glass"></i>
               </div>
-            </div> */}
+            </div>
           </div>
         </div>
 
@@ -341,70 +406,35 @@ export default function Header(props: Partial<HeaderProps>) {
                   </div>
 
                   <div className="col-xl-6 col-lg-4 col-md-12 col-sm-12 col-12 header-right">
-                    {/* <div className="header-search-form hidden-md hidden-sm hidden-xs">
+                    <div className="header-search-form hidden-md hidden-sm hidden-xs">
                       <form
                         role="search"
                         method="get"
                         className="search-from ajax-search"
-                        action=""
+                        action="/catalogues"
                       >
-                        <div className="search-box">
+                        <div className="search-box visible">
                           <input
                             type="text"
-                            name="s"
-                            id="ss"
+                            name="search"
+                            id="search"
+                            onChange={deboncedResults}
                             className="input-search s"
                             placeholder="What are you looking for?"
                           />
-                          <div className="result-search-products-content">
-                            <div className="result-search-products">
+                          <div className={resultSearchBoxClass}>
+                            <div className={resultSearchProductsClass}>
                               <ul className="items-search">
-                                <li className="item-search">
-                                  <a
-                                    className="item-image"
-                                    href="shop-details.html"
-                                  >
-                                    <Image
-                                      alt=""
-                                      className="pull-left"
-                                      width={600}
-                                      height={600}
-                                      src="/media/product/3.jpg"
-                                    />
-                                  </a>
-                                  <div className="item-content">
-                                    <a
-                                      href="shop-details.html"
-                                      title="Chair Oak Matt Lacquered"
-                                    >
-                                      <span>Chair Oak Matt Lacquered</span>
-                                    </a>
-                                    <div className="price">$150.00</div>
-                                  </div>
-                                </li>
-                                <li className="item-search">
-                                  <a
-                                    className="item-image"
-                                    href="shop-details.html"
-                                  >
-                                    <Image
-                                      alt=""
-                                      className="pull-left"
-                                      width={600}
-                                      height={600}
-                                      src="/media/product/1.jpg"
-                                    />
-                                  </a>
-                                  <div className="item-content">
-                                    <a
-                                      href="shop-details.html"
-                                      title="Zunkel Schwarz"
-                                    >
-                                      <span>Zunkel Schwarz</span>
-                                    </a>
-                                    <div className="price">$100.00</div>
-                                  </div>
-                                </li>
+                                {search && searchedCatalogue.length == 0 && (
+                                  <p>
+                                    Not found what you want? Search{" "}
+                                    <Link href={"/catalogues"}>here.</Link>
+                                  </p>
+                                )}
+                                {searchedCatalogue &&
+                                  searchedCatalogue.map((item: any) => (
+                                    <SearchHeaderItems item={item} />
+                                  ))}
                               </ul>
                             </div>
                           </div>
@@ -420,15 +450,15 @@ export default function Header(props: Partial<HeaderProps>) {
                           <span>Search</span>
                         </button>
                       </form>
-                    </div> */}
+                    </div>
 
                     <div className="header-page-link">
                       {/* <!-- Search --> */}
-                      {/* <div className="search-box hidden-lg">
+                      <div className="search-box hidden-lg" onClick={() => setSearchMobile(true)}>
                         <div className="search-toggle">
                           <i className="wpb-icon-magnifying-glass"></i>
                         </div>
-                      </div> */}
+                      </div>
 
                       {/* <!-- Cart --> */}
                       <div className="ruper-topcart dropdown light">
@@ -436,7 +466,7 @@ export default function Header(props: Partial<HeaderProps>) {
                           <div
                             className="remove-cart-shadow"
                             onClick={() => {
-                              showCart(!cartActive)
+                              showCart(!cartActive);
                             }}
                           ></div>
                           <a
@@ -447,12 +477,14 @@ export default function Header(props: Partial<HeaderProps>) {
                             aria-haspopup="true"
                             aria-expanded="false"
                             onClick={() => {
-                              showCart(!cartActive)
+                              showCart(!cartActive);
                             }}
                           >
                             <div className="icons-cart">
                               <i className="icon-large-paper-bag"></i>
-                              <span className={cartCountClass}>{wishlistsItem}</span>
+                              <span className={cartCountClass}>
+                                {wishlistsItem}
+                              </span>
                             </div>
                           </a>
                           <div className={dropdownCartClass}>
@@ -475,18 +507,29 @@ export default function Header(props: Partial<HeaderProps>) {
                             </div>
                             <div className={cartClass}>
                               <ul className="cart-list ">
-                                {(wishlists) ?
-                                wishlists.map((item) => {
-                                  return <CartItems cart={item} onClick={() => removeFromCart(item)}/>
-                                })
-                                 : ''}
+                                {wishlists
+                                  ? wishlists.map((item) => {
+                                      return (
+                                        <CartItems
+                                          cart={item}
+                                          onClick={() => removeFromCart(item)}
+                                        />
+                                      );
+                                    })
+                                  : ""}
                               </ul>
                               <div className="total-cart">
                                 <div className="title-total">Total: </div>
                                 <div className="total-price">
                                   <span>
-                                  <NumericFormat value={totalWishlists} displayType='text' prefix='Rp ' thousandSeparator=',' decimalSeparator='.'/>
-                                    </span>
+                                    <NumericFormat
+                                      value={totalWishlists}
+                                      displayType="text"
+                                      prefix="Rp "
+                                      thousandSeparator=","
+                                      decimalSeparator="."
+                                    />
+                                  </span>
                                 </div>
                               </div>
                               <div className="buttons">
@@ -513,6 +556,44 @@ export default function Header(props: Partial<HeaderProps>) {
               </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      {/* <!-- Search --> */}
+      <div className={searchOverlayClass}>
+        <div
+          className="close-search"
+          onClick={() => setSearchMobile(false)}
+        ></div>
+        <div className="wrapper-search">
+          <form role="search" method="get" className="search-from" action="/catalogues">
+            <div className="search-box">
+              <button id="searchsubmit" className="btn" type="submit">
+                <i className="icon-search"></i>
+              </button>
+              <input
+                id="myInput"
+                type="text"
+                autoComplete="off"
+                defaultValue=""
+                onChange={deboncedResults}
+                name="search"
+                placeholder="Search..."
+              />
+              <div className="content-menu_search">
+                {search && searchedCatalogue.length == 0 && (
+                  <span>
+                    Not found what you want? Search{" "}
+                    <Link href={"/catalogues"}><b>here.</b></Link>
+                  </span>
+                )}
+                {searchedCatalogue &&
+                  searchedCatalogue.map((item: any) => (
+                    <SearchSidebarItems item={item} />
+                  ))}
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </>
