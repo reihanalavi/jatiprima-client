@@ -3,7 +3,10 @@ import Arrow from "@/components/atoms/Slider/Arrow";
 import CatalogueItems from "@/components/molecules/CatalogueItems";
 import Footer from "@/components/organisms/Footer";
 import Header from "@/components/organisms/Header";
-import { getCatalogueDetail } from "@/services/apiservice";
+import {
+  getCatalogueByCategory,
+  getCatalogueDetail,
+} from "@/services/apiservice";
 import { EtalaseTypes, FotoCatalogueTypes } from "@/services/data-types";
 import Image from "next/image";
 import Link from "next/link";
@@ -11,11 +14,16 @@ import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { NumericFormat } from "react-number-format";
 import Slider from "react-slick";
-import cx from 'classnames'
+import cx from "classnames";
 import Head from "next/head";
 import BackToTop from "@/components/molecules/Back To Top";
 
-export default function CatalogueDetail() {
+export interface CatalogueDetailProps {
+  catalogue: any,
+  colors: any
+}
+
+export default function CatalogueDetail({ catalogue, colors }: CatalogueDetailProps) {
   const sliderSetting3 = {
     arrow: true,
     nextArrow: <Arrow right />,
@@ -224,51 +232,36 @@ export default function CatalogueDetail() {
     },
   ];
 
-  const { query, isReady } = useRouter();
-
-  const [catalogue, setCatalogue] = useState<any>();
-  const [foto, setFoto] = useState([]);
-
-  const [colors, setColors] = useState([]);
   const [activeColor, setActiveColor] = useState();
 
   const [qty, setQty] = useState(1);
 
-  const [addToCart, setAddToCart] = useState(false)
+  const [addToCart, setAddToCart] = useState(false);
 
-  const [wishlists, setWishlists] = useState<any>([])
+  const [wishlists, setWishlists] = useState<any>([]);
 
-  const [slickClick, setSlickClick] = useState(false)
-  const [slickIndex, setSlickIndex] = useState(0)
+  const [slickClick, setSlickClick] = useState(false);
+  const [slickIndex, setSlickIndex] = useState(0);
 
-  const slider2 = useRef(null)
+  const slider2 = useRef(null);
 
   function syncSlick(i: number) {
-    setSlickClick(true)
-    setSlickIndex(i)
+    setSlickClick(true);
+    setSlickIndex(i);
   }
-  
+
   useEffect(() => {
-    if(slickClick) {
-      (slider2.current as any).slickGoTo(slickIndex, false)
-      setSlickClick(false)
+    if (slickClick) {
+      (slider2.current as any).slickGoTo(slickIndex, false);
+      setSlickClick(false);
     }
-  })
+  });
 
   const addToCartClass = cx({
     "button alt": true,
     "single-add-to-cart-button": addToCart === false,
     "single-added-to-cart-button": addToCart === true,
-  })
-
-  const getDetail = useCallback(async (id: any) => {
-    const data = await getCatalogueDetail(id);
-    setCatalogue(data.data);
-
-    setColors(data.data.warnas);
-    setActiveColor(data.data.warnas?.at(0)?.name);
-
-  }, []);
+  });
 
   function handleStock(code: Number) {
     if (code > 0) {
@@ -283,279 +276,298 @@ export default function CatalogueDetail() {
   }
 
   function addItemToCart(item: EtalaseTypes) {
-    if(!addToCart) {
+    if (!addToCart) {
       const itemModified = {
         item,
         warna: activeColor,
-        quantity: qty
-      }
-      setWishlists((current: any) => [itemModified, ...current])
-      setAddToCart(true)
+        quantity: qty,
+      };
+      setWishlists((current: any) => [itemModified, ...current]);
+      setAddToCart(true);
     }
   }
 
-  const initialRender = useRef(true)
+  const initialRender = useRef(true);
 
   useEffect(() => {
-
-    const saved = localStorage.getItem("wishlists")
-    if(saved) {
-      if(JSON.parse(saved || [] as never)) {
-        const parsedSaved = JSON.parse(saved || [] as never)
-        setWishlists([...wishlists, ...parsedSaved])
+    const saved = localStorage.getItem("wishlists");
+    if (saved) {
+      if (JSON.parse(saved || ([] as never))) {
+        const parsedSaved = JSON.parse(saved || ([] as never));
+        setWishlists([...wishlists, ...parsedSaved]);
       } else {
-        localStorage.setItem("wishlists", "[]")
+        localStorage.setItem("wishlists", "[]");
       }
     } else {
-      localStorage.setItem("wishlists", "[]")
+      localStorage.setItem("wishlists", "[]");
+    }
+  }, []);
+
+  useEffect(() => {
+    if (initialRender.current) {
+      initialRender.current = false;
+      return;
+    }
+
+    localStorage.setItem("wishlists", JSON.stringify(wishlists));
+  }, [wishlists]);
+
+  useEffect(() => {
+    if(colors) {
+      setActiveColor(colors.at(0).name)
     }
   }, [])
 
-  useEffect(() => {
-    if(initialRender.current) {
-      initialRender.current = false
-      return
-    }
-    
-    localStorage.setItem("wishlists", JSON.stringify(wishlists))
-
-  }, [wishlists])
-
-  useEffect(() => {
-    if (isReady) {
-      getDetail(query.id);
-    }
-  }, [isReady]);
-
   return (
     <>
-    <Head>
+      <Head>
         <title>{catalogue?.name} - Jati Prima Furniture</title>
         <meta name="description" content={catalogue?.metaDeskripsi} />
-        <meta name="og:title" content={`${catalogue?.name} - Jati Prima Furniture`} />
+        <meta
+          name="og:title"
+          content={`${catalogue?.name} - Jati Prima Furniture`}
+        />
         <meta name="og:image" content={catalogue?.foto?.at(0)?.fotoURL} />
-        <meta name="og:url" content="https://jatiprimafurniture.com/" />
-    </Head>
+        <meta name="og:url" content={`https://jatiprimafurniture.com/catalogue/${catalogue?._id}/detail`} />
+        <meta name="og:description" content={catalogue?.metaDeskripsi} />
+      </Head>
 
-    <section>
-      <Header menus={menus} />
-      <div id="page" className="hfeed page-wrapper">
-        <div id="site-main" className="site-main">
-          <div id="main-content" className="main-content">
-            <div id="primary" className="content-area">
-              <div
-                id="title"
-                className="page-title"
-                style={{ backgroundImage: `url(${catalogue?.foto?.at(0)?.fotoURL})` }}
-              >
-                <div className="section-container">
-                  <div className="content-title-heading">
-                    <h1 className="text-title-heading">{catalogue?.name}</h1>
-                  </div>
-                  <div className="breadcrumbs">
-                    <Link href="/">Home</Link>
-                    <span className="delimiter"></span>
-                    <Link href="/catalogues">Catalogues</Link>
-                    <span className="delimiter"></span>
-                    {catalogue?.name}
+      <section>
+        <Header menus={menus} />
+        <div id="page" className="hfeed page-wrapper">
+          <div id="site-main" className="site-main">
+            <div id="main-content" className="main-content">
+              <div id="primary" className="content-area">
+                <div
+                  id="title"
+                  className="page-title"
+                  style={{
+                    backgroundImage: `url(${catalogue?.foto?.at(0)?.fotoURL})`,
+                  }}
+                >
+                  <div className="section-container">
+                    <div className="content-title-heading">
+                      <h1 className="text-title-heading">{catalogue?.name}</h1>
+                    </div>
+                    <div className="breadcrumbs">
+                      <Link href="/">Home</Link>
+                      <span className="delimiter"></span>
+                      <Link href="/catalogues">Catalogues</Link>
+                      <span className="delimiter"></span>
+                      {catalogue?.name}
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div id="content" className="site-content" role="main">
-                <div
-                  className="shop-details zoom"
-                  data-product_layout_thumb="scroll"
-                  data-zoom_scroll="true"
-                  data-zoom_contain_lens="true"
-                  data-zoomtype="inner"
-                  data-lenssize="200"
-                  data-lensshape="square"
-                  data-lensborder=""
-                  data-bordersize="2"
-                  data-bordercolour="#f9b61e"
-                  data-popup="false"
-                >
-                  <div className="product-top-info">
-                    <div className="section-padding">
-                      <div className="section-container p-l-r">
-                        <div className="row">
-                          <div className="product-images col-lg-7 col-md-12 col-12">
-                            <div className="row">
-                              <div className="col-md-2">
-                                <div
-                                  className="content-thumbnail-scroll"
-                                  style={{ height: "150px" }}
-                                >
-                                  {catalogue?.foto && (
-                                    <Slider
-                                      {...sliderSetting}
-                                      className="image-thumbnail slick-carousel slick-vertical"
-                                    >
-                                      {catalogue?.foto &&
-                                        catalogue?.foto.map((item: FotoCatalogueTypes, i: number) => (
-                                          <div
-                                            className="img-item slick-slide"
-                                            key={i}
-                                            onClick={(e) => {
-                                              syncSlick(i)
-                                            }}
-                                          >
-                                            <span className="img-thumbnail-scroll">
-                                              <Image
-                                                width={600}
-                                                height={600}
-                                                src={item.fotoURL}
-                                                alt={item.fotoALT}
-                                              />
-                                            </span>
-                                          </div>
-                                        ))}
-                                    </Slider>
-                                  )}
-                                </div>
-                              </div>
-                              <div className="col-md-10">
-                                <div className="scroll-image main-image">
-                                  {catalogue?.foto && (
-                                    <Slider
-                                    ref={slider2}
-                                      {...sliderSetting2}
-                                      className="image-additional slick-carousel"
-                                    >
-                                      {catalogue?.foto &&
-                                        catalogue?.foto.map((item: FotoCatalogueTypes) => (
-                                          <div
-                                            className="img-item slick-slide"
-                                            key={item.fotoName}
-                                          >
-                                            <Image
-                                              width={900}
-                                              height={900}
-                                              src={item.fotoURL}
-                                              alt={item.fotoALT}
-                                              title={item.fotoName}
-                                            />
-                                          </div>
-                                        ))}
-                                    </Slider>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="product-info col-lg-5 col-md-12 col-12 ">
-                            <h1 className="title">{catalogue?.name}</h1>
-                            <span className="price">
-                              <span>
-                                <NumericFormat
-                                  value={parseInt(catalogue?.price!)}
-                                  displayType="text"
-                                  prefix="Rp "
-                                  thousandSeparator=","
-                                  decimalSeparator="."
-                                />
-                              </span>
-                            </span>
-                            <div className="description">
-                              <p>{catalogue?.deskripsi}</p>
-                            </div>
-                            <div className="variations">
-                              <table cellSpacing={0}>
-                                <tbody>
-                                  <tr>
-                                    <td className="label">Color</td>
-                                    <td className="attributes">
-                                      <ul className="colors">
-                                        {catalogue?.warnas &&
-                                          catalogue?.warnas.map((item: any) => (
-                                            <ColorItem
-                                              onClick={() =>
-                                                setActiveColor(item.name)
-                                              }
-                                              active={activeColor === item.name}
-                                              colorCode={item.kode}
-                                            />
-                                          ))}
-                                      </ul>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                            <div className="buttons">
-                              <div className="add-to-cart-wrap">
-                                <div className="quantity">
-                                  <button
-                                    type="button"
-                                    className="plus"
-                                    onClick={() => handleStock(1)}
+                <div id="content" className="site-content" role="main">
+                  <div
+                    className="shop-details zoom"
+                    data-product_layout_thumb="scroll"
+                    data-zoom_scroll="true"
+                    data-zoom_contain_lens="true"
+                    data-zoomtype="inner"
+                    data-lenssize="200"
+                    data-lensshape="square"
+                    data-lensborder=""
+                    data-bordersize="2"
+                    data-bordercolour="#f9b61e"
+                    data-popup="false"
+                  >
+                    <div className="product-top-info">
+                      <div className="section-padding">
+                        <div className="section-container p-l-r">
+                          <div className="row">
+                            <div className="product-images col-lg-7 col-md-12 col-12">
+                              <div className="row">
+                                <div className="col-md-2">
+                                  <div
+                                    className="content-thumbnail-scroll"
+                                    style={{ height: "150px" }}
                                   >
-                                    +
-                                  </button>
-                                  <input
-                                    type="number"
-                                    className="qty"
-                                    step="1"
-                                    min="0"
-                                    max=""
-                                    name="quantity"
-                                    value={qty}
-                                    title="Qty"
-                                    size={4}
-                                    placeholder=""
-                                    inputMode="numeric"
-                                    autoComplete="off"
+                                    {catalogue?.foto && (
+                                      <Slider
+                                        {...sliderSetting}
+                                        className="image-thumbnail slick-carousel slick-vertical"
+                                      >
+                                        {catalogue?.foto &&
+                                          catalogue?.foto.map(
+                                            (
+                                              item: FotoCatalogueTypes,
+                                              i: number
+                                            ) => (
+                                              <div
+                                                className="img-item slick-slide"
+                                                key={i}
+                                                onClick={(e) => {
+                                                  syncSlick(i);
+                                                }}
+                                              >
+                                                <span className="img-thumbnail-scroll">
+                                                  <Image
+                                                    width={600}
+                                                    height={600}
+                                                    src={item.fotoURL}
+                                                    alt={item.fotoALT}
+                                                  />
+                                                </span>
+                                              </div>
+                                            )
+                                          )}
+                                      </Slider>
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="col-md-10">
+                                  <div className="scroll-image main-image">
+                                    {catalogue?.foto && (
+                                      <Slider
+                                        ref={slider2}
+                                        {...sliderSetting2}
+                                        className="image-additional slick-carousel"
+                                      >
+                                        {catalogue?.foto &&
+                                          catalogue?.foto.map(
+                                            (item: FotoCatalogueTypes) => (
+                                              <div
+                                                className="img-item slick-slide"
+                                                key={item.fotoName}
+                                              >
+                                                <Image
+                                                  width={900}
+                                                  height={900}
+                                                  src={item.fotoURL}
+                                                  alt={item.fotoALT}
+                                                  title={item.fotoName}
+                                                />
+                                              </div>
+                                            )
+                                          )}
+                                      </Slider>
+                                    )}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="product-info col-lg-5 col-md-12 col-12 ">
+                              <h1 className="title">{catalogue?.name}</h1>
+                              <span className="price">
+                                <span>
+                                  <NumericFormat
+                                    value={parseInt(catalogue?.price!)}
+                                    displayType="text"
+                                    prefix="Rp "
+                                    thousandSeparator=","
+                                    decimalSeparator="."
                                   />
+                                </span>
+                              </span>
+                              <div className="description">
+                                <p>{catalogue?.deskripsi}</p>
+                              </div>
+                              <div className="variations">
+                                <table cellSpacing={0}>
+                                  <tbody>
+                                    <tr>
+                                      <td className="label">Color</td>
+                                      <td className="attributes">
+                                        <ul className="colors">
+                                          {catalogue?.warnas &&
+                                            catalogue?.warnas.map(
+                                              (item: any) => (
+                                                <ColorItem
+                                                  onClick={() =>
+                                                    setActiveColor(item.name)
+                                                  }
+                                                  active={
+                                                    activeColor === item.name
+                                                  }
+                                                  colorCode={item.kode}
+                                                />
+                                              )
+                                            )}
+                                        </ul>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                              <div className="buttons">
+                                <div className="add-to-cart-wrap">
+                                  <div className="quantity">
+                                    <button
+                                      type="button"
+                                      className="plus"
+                                      onClick={() => handleStock(1)}
+                                    >
+                                      +
+                                    </button>
+                                    <input
+                                      type="number"
+                                      className="qty"
+                                      step="1"
+                                      min="0"
+                                      max=""
+                                      name="quantity"
+                                      value={qty}
+                                      title="Qty"
+                                      size={4}
+                                      placeholder=""
+                                      inputMode="numeric"
+                                      autoComplete="off"
+                                    />
+                                    <button
+                                      type="button"
+                                      className="minus"
+                                      onClick={() => handleStock(-1)}
+                                    >
+                                      -
+                                    </button>
+                                  </div>
                                   <button
-                                    type="button"
-                                    className="minus"
-                                    onClick={() => handleStock(-1)}
+                                    className={addToCartClass}
+                                    onClick={() => addItemToCart(catalogue)}
                                   >
-                                    -
+                                    {addToCart ? "Added" : "Add to Cart"}
                                   </button>
                                 </div>
-                                <button
-                                  className={addToCartClass}
-                                  onClick={() => addItemToCart(catalogue)}
-                                >
-                                  {addToCart ? "Added" : "Add to Cart"}
-                                </button>
                               </div>
-                            </div>
-                            <div className="product-meta">
-                              <span className="sku-wrapper d-block">
-                                Materials:
-                                {catalogue?.materials &&
-                                  catalogue?.materials.map((item: any, i: number, row: any) => (
-                                    <a rel="tag">
-                                      {item.name}
-                                      {i + 1 === row.length ? "" : ","}
-                                    </a>
-                                  ))}
-                              </span>
-                              <span className="posted-in d-block">
-                                Category:
-                                <Link
-                                  href={`/catalogues?id=${catalogue?.categories?._id}`}
-                                  rel="tag"
-                                >
-                                  {catalogue?.categories?.name}
-                                </Link>
-                              </span>
-                              <span className="tagged-as d-block">
-                                Tags:
-                                {catalogue?.tag &&
-                                  catalogue?.tag.map((item: any, i: number, row:any) => (
-                                    <a rel="tag">
-                                      {item}
-                                      {i + 1 === row.length ? "" : ","}
-                                    </a>
-                                  ))}
-                              </span>
-                            </div>
-                            {/* <div className="social-share">
+                              <div className="product-meta">
+                                <span className="sku-wrapper d-block">
+                                  Materials:
+                                  {catalogue?.materials &&
+                                    catalogue?.materials.map(
+                                      (item: any, i: number, row: any) => (
+                                        <a rel="tag">
+                                          {item.name}
+                                          {i + 1 === row.length ? "" : ","}
+                                        </a>
+                                      )
+                                    )}
+                                </span>
+                                <span className="posted-in d-block">
+                                  Category:
+                                  <Link
+                                    href={`/catalogues?id=${catalogue?.categories?._id}`}
+                                    rel="tag"
+                                  >
+                                    {catalogue?.categories?.name}
+                                  </Link>
+                                </span>
+                                <span className="tagged-as d-block">
+                                  Tags:
+                                  {catalogue?.tag &&
+                                    catalogue?.tag.map(
+                                      (item: any, i: number, row: any) => (
+                                        <a rel="tag">
+                                          {item}
+                                          {i + 1 === row.length ? "" : ","}
+                                        </a>
+                                      )
+                                    )}
+                                </span>
+                              </div>
+                              {/* <div className="social-share">
                               <a
                                 href="#"
                                 title="Facebook"
@@ -579,23 +591,57 @@ export default function CatalogueDetail() {
                                 <i className="fa fa-pinterest"></i>Pinterest
                               </a>
                             </div> */}
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                {/* <!-- #content --> */}
               </div>
-              {/* <!-- #content --> */}
+              {/* <!-- #primary --> */}
             </div>
-            {/* <!-- #primary --> */}
+            {/* <!-- #main-content --> */}
           </div>
-          {/* <!-- #main-content --> */}
         </div>
-      </div>
-      <Footer />
-      <BackToTop/>
-    </section>
+        <Footer />
+        <BackToTop />
+      </section>
     </>
   );
+}
+
+export async function getStaticPaths(params: any) {
+  const data = await getCatalogueByCategory("all");
+  const paths = data.data.map((item: any) => ({
+    params: {
+      id: item._id,
+    },
+  }));
+
+  console.log("PATHS : ", paths);
+  return {
+    paths,
+    fallback: false,
+  };
+}
+
+interface getStaticProps {
+  params: {
+    id: string;
+  };
+}
+
+export async function getStaticProps({ params }: getStaticProps) {
+  const { id } = params;
+  const data = await getCatalogueDetail(id);
+  console.log("DATA SERVER SIDE : ", data);
+  return {
+    props: {
+      catalogue: data.data,
+      colors: data.data.warnas,
+      // activeColor: data.data.warnas?.at(0)?.name,
+    },
+  };
 }
