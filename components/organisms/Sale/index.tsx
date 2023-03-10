@@ -10,12 +10,9 @@ interface SaleProps {
 export default function Sale(props: SaleProps) {
   const { item } = props;
 
-  const fotoURLS = []
-  const fotoALTs = []
-
   return (
     <>
-      <section className="section section-padding m-b-70">
+      <section className="section section-padding m-b-0 p-t-70 p-b-70">
         <div className="section-container">
           {/* <!-- Block Product Categories --> */}
           <div className="block block-product-cats layout-4">

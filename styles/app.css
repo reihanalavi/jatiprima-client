@@ -9789,6 +9789,10 @@ ul.slick-dots li.slick-active button {
   right: 20px;
 }
 
+.block.block-parallax {
+  margin-bottom: 0;
+}
+
 .shop-details .product-images .main-image .slick-arrow.fa-angle-right:before {
   content: ">";
 }

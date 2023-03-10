@@ -18,14 +18,29 @@ export default function Page() {
 
   const [catalogues, setCatalogues] = useState([])
   const [categories, setCategories] = useState([])
+  const [arrivals, setArrivals] = useState([])
   const [testimonies, setTestimonies] = useState([])
+  const [numArrival, setNumArrival] = useState(0)
 
   const getHomeObject = useCallback(async() => {
     const data = await getHome()
     setCatalogues(data.catalogues)
     setCategories(data.categories)
     setTestimonies(data.testimonies)
+
+    
   }, [])
+
+  useEffect(() => {
+    setArrivals([])
+    catalogues.map((item: any) => (
+      (item.arrival ? arrivals.push(item as never) : '')
+    ))
+
+    setNumArrival(arrivals.length)
+    console.log("ARRIVALS : ", arrivals)
+    console.log("ARRIVALS LENGTH : ", numArrival)
+  }, [catalogues])
 
   const menus = [
     {
@@ -63,11 +78,7 @@ export default function Page() {
 
                 <Hero />
 
-                <Sale item={catalogues} />
-
-                {/* <Trend /> */}
-
-                {/* <Shop /> */}
+                {(arrivals && numArrival >= 1 ? <Sale item={catalogues}/> : '')}
 
                 <Collection item={categories} />
 

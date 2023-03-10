@@ -4,7 +4,7 @@ import Link from 'next/link'
 export default function Hero() {
   return (
     <>
-    <section className="section m-b-70">
+    <section className="section m-b-0">
     {/* <!-- Block Parallax --> */}
     <div className="block block-parallax">
         <div className="content">
