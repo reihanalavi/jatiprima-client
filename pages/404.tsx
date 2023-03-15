@@ -1,9 +1,7 @@
 import BackToTop from '@/components/molecules/Back To Top'
 import Footer from '@/components/organisms/Footer'
 import Header from '@/components/organisms/Header'
-import Search from '@/components/organisms/Search'
 import Head from 'next/head'
-import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
@@ -67,18 +65,14 @@ export default function NotFound() {
 								</div>
 							</div>
 						</div>
-                        {/* <!-- #content --> */}
 					</div>
-                    {/* <!-- #primary --> */}
 				</div>
-                {/* <!-- #main-content --> */}
 			</div>
 
 			<Footer />
 
         <BackToTop />
 
-        <Search />
 		</div>
 
 

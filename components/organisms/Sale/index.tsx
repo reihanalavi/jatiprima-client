@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-import Image from "next/image";
+import React from "react";
 import SaleItem from "@/components/molecules/SaleItem";
-import { FotoCatalogueTypes, SaleTypes } from "@/services/data-types";
+import { SaleTypes } from "@/services/data-types";
 
 interface SaleProps {
   item: SaleTypes[];

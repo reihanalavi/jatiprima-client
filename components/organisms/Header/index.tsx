@@ -2,18 +2,16 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
-import Image from "next/image";
+
 import Logo from "./Logo";
-import MenuItem, { SubMenuType, SubMenuValue } from "./Menu Item";
+import MenuItem, { SubMenuType } from "./Menu Item";
 import cx from "classnames";
-import { CartItemsProps, EtalaseTypes } from "@/services/data-types";
+import { CartItemsProps } from "@/services/data-types";
 import CartItems from "@/components/molecules/Cart Items";
 import Link from "next/link";
 import { NumericFormat } from "react-number-format";
-import { debounce } from "lodash";
 import debouce from "lodash.debounce";
 import { getCatalogueByCategory } from "@/services/apiservice";
 import SearchHeaderItems from "@/components/molecules/SearchHeaderItems";

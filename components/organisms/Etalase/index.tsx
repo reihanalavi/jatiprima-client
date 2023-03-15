@@ -5,7 +5,7 @@ import cx from "classnames";
 import Slider from "react-slick";
 import Arrow from "@/components/atoms/Slider/Arrow";
 import ColorItem from "@/components/atoms/ColorItem";
-import { EtalaseTypes, WarnaTypes } from "@/services/data-types";
+import { EtalaseTypes } from "@/services/data-types";
 import Link from "next/link";
 import { NumericFormat } from "react-number-format";
 

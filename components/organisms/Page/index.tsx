@@ -1,18 +1,13 @@
 import { getHome } from '@/services/apiservice';
-import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useState } from 'react'
 import Collection from "../Collection";
 import Etalase from "../Etalase";
 import Footer from "../Footer";
 import Header from "../Header";
 import Hero from "../Hero";
-import Idea from "../Idea";
 import Keys from "../Keys";
 import Sale from "../Sale";
-import Shop from "../Shop";
-import Subscribe from "../Subscribe";
 import Testimoni from "../Testimoni";
-import Trend from "../Trend";
 
 export default function Page() {
 
@@ -84,11 +79,8 @@ export default function Page() {
 
                 <Etalase item={catalogues} />
 
-                {/* <Idea /> */}
-
                 <Testimoni item={testimonies} />
 
-                {/* <Subscribe /> */}
               </div>
             </div>
           </div>

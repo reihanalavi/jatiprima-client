@@ -5,20 +5,7 @@ import React, { useEffect } from "react";
 
 export default function SaleItem(props: SaleItemProps) {
   const { id, name, foto } = props;
-  // let fotoURLs = []
-  // let fotoALTs = []
-
-  function pushToArray() {
-    // foto.map((item: FotoCatalogueTypes) => (
-    //     fotoURLs.push(item.fotoURL),
-    //     fotoALTs.push(item.fotoALT)
-    // ))
-  }
-
-  // useEffect(() => {
-  //   pushToArray()
-  // }, [pushToArray])
-
+  
   return (
     <>
       <div className="col-md-3 col-sm-6 sm-m-b-30">

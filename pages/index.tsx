@@ -1,9 +1,5 @@
 import { Inter } from "@next/font/google";
 import BackToTop from "@/components/molecules/Back To Top";
-import Search from "@/components/organisms/Search";
-import Wishlist from "@/components/organisms/Wishlist";
-import Compare from "@/components/organisms/Compare";
-import QuickView from "@/components/organisms/Quick View";
 import Page from "@/components/organisms/Page";
 import Head from "next/head";
 
@@ -23,8 +19,6 @@ export default function Home() {
       <Page />
 
       <BackToTop />
-
-      <Search />
     </>
   );
 }

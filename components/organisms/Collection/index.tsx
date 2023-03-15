@@ -1,8 +1,7 @@
 import Arrow from "@/components/atoms/Slider/Arrow";
 import CollectionItems from "@/components/molecules/CollectionItems";
 import { CollectionItemsProps, CollectionTypes } from "@/services/data-types";
-import Image from "next/image";
-import React, { useEffect } from "react";
+import React from "react";
 import Slider from "react-slick";
 
 interface collectionProps {
@@ -11,8 +10,6 @@ interface collectionProps {
 
 export default function Collection(props: collectionProps) {
   const { item } = props;
-
-  const API_IMG = process.env.NEXT_PUBLIC_IMG;
 
   const sliderSetting = {
     arrow: true,

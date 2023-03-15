@@ -4,7 +4,6 @@ import TestimonialName from "@/components/atoms/Testimonial/TestimonialName";
 import TestimonialStar from "@/components/atoms/Testimonial/TestimonialStar";
 import TestimonialTitle from "@/components/atoms/Testimonial/TestimonialTitle";
 import { TestimonialItemProps } from "@/services/data-types";
-import Image from "next/image";
 import React from "react";
 
 export default function TestimonialItem(props: TestimonialItemProps) {

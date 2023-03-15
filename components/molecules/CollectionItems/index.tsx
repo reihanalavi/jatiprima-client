@@ -5,7 +5,6 @@ import React from "react";
 
 export default function CollectionItems(props: CollectionItemsProps) {
     const { fotoURL, fotoALT, name, _id } = props
-    const API_IMG = process.env.NEXT_PUBLIC_IMG;
 
   return (
     <>
