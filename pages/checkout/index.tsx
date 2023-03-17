@@ -9,6 +9,7 @@ import CheckoutItems from "@/components/molecules/Checkout Items";
 import cx from "classnames";
 import { NumericFormat } from "react-number-format";
 import { createCheckout, getCountryCities } from "@/services/apiservice";
+import Head from "next/head";
 
 
 interface ok { 
@@ -162,6 +163,14 @@ export default function Checkout(props: ok) {
 
   return (
     <>
+    <Head>
+        <title>Checkout - Jati Prima Furniture</title>
+        <meta name="description" content={'Cari katalog mebel Jepara di Jati Prima Furniture'} />
+        <meta name="og:title" content='Checkout - Jati Prima Furniture' />
+        <meta name="og:image" content="/media/hero_jp.jpeg" />
+        <meta name="og:url" content="https://jatiprimafurniture.com/checkout" />
+    </Head>
+    <section>
       <body className="shop">
         <Header menus={menus} />
         <div id="page" className="hfeed page-wrapper">
@@ -671,6 +680,7 @@ export default function Checkout(props: ok) {
         </div>
         <Footer />
       </body>
+    </section>
       <BackToTop />
     </>
   );

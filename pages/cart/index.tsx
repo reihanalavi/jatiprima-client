@@ -9,6 +9,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { NumericFormat } from "react-number-format";
 import cx from 'classnames'
 import { getCountryCities } from "@/services/apiservice";
+import Head from "next/head";
 
 export default function Cart() {
   const menus = [
@@ -83,6 +84,13 @@ export default function Cart() {
 
   return (
     <>
+    <Head>
+        <title>Cart - Jati Prima Furniture</title>
+        <meta name="description" content={'Cari katalog mebel Jepara di Jati Prima Furniture'} />
+        <meta name="og:title" content='Cart - Jati Prima Furniture' />
+        <meta name="og:image" content="/media/hero_jp.jpeg" />
+        <meta name="og:url" content="https://jatiprimafurniture.com/cart" />
+    </Head>
       <section>
         <Header menus={menus} />
         <body className="shop">

@@ -4,6 +4,7 @@ import Header from '@/components/organisms/Header'
 import Link from 'next/link';
 import Footer from '@/components/organisms/Footer';
 import BackToTop from '@/components/molecules/Back To Top';
+import Head from 'next/head';
 
 export default function Contact() {
     const menus = [
@@ -27,6 +28,13 @@ export default function Contact() {
 
   return (
     <>
+	<Head>
+        <title>Contact - Jati Prima Furniture</title>
+        <meta name="description" content={'Hubungi Jati Prima Furniture'} />
+        <meta name="og:title" content='Contact - Jati Prima Furniture' />
+        <meta name="og:image" content="/media/hero_jp.jpeg" />
+        <meta name="og:url" content="https://jatiprimafurniture.com/contact" />
+    </Head>
     <body className="page">
 		<div id="page" className="hfeed page-wrapper">
             
