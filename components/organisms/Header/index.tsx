@@ -490,16 +490,16 @@ export default function Header(props: Partial<HeaderProps>) {
                               <ul className="cart-list">
                                 <li className="empty">
                                   <span>No products in the cart.</span>
-                                  <a
+                                  <Link
                                     className="go-shop"
-                                    href="shop-grid-left.html"
+                                    href="/catalogues"
                                   >
                                     GO TO SHOP
                                     <i
                                       aria-hidden="true"
                                       className="arrow_right"
                                     ></i>
-                                  </a>
+                                  </Link>
                                 </li>
                               </ul>
                             </div>
