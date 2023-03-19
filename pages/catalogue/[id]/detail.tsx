@@ -26,71 +26,6 @@ export interface CatalogueDetailProps {
 }
 
 export default function CatalogueDetail({ catalogue, colors, urlOG }: CatalogueDetailProps) {
-  const sliderSetting3 = {
-    arrow: true,
-    nextArrow: <Arrow right />,
-    prevArrow: <Arrow left />,
-    dots: false,
-    draggable: true,
-    centerMode: true,
-    focusOnSelect: true,
-    infinite: true,
-    autoplay: false,
-    slidesToShow: 4,
-    slidesToScroll: 4,
-    cssEase: "linear",
-    autoplaySpeed: 5000,
-    pauseOnHover: !1,
-    pauseOnFocus: !1,
-    responsive: [
-      {
-        breakpoint: 1441,
-        settings: {
-          slidesToShow: 4,
-          slidesToScroll: 4,
-        },
-      },
-      {
-        breakpoint: 1440,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-        },
-      },
-      {
-        breakpoint: 1200,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-        },
-      },
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-        },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          vertical: !1,
-          verticalSwiping: !1,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          vertical: !1,
-          verticalSwiping: !1,
-        },
-      },
-    ],
-  };
 
   const sliderSetting2 = {
     arrow: true,
@@ -154,11 +89,10 @@ export default function CatalogueDetail({ catalogue, colors, urlOG }: CatalogueD
   };
 
   const sliderSetting = {
-    arrow: true,
-    nextArrow: <Arrow right />,
-    prevArrow: <Arrow left />,
+    arrow: false,
+    nextArrow: <Arrow up />,
+    prevArrow: <Arrow down />,
     dots: false,
-    // asNavFor: '.image-additional',
     draggable: true,
     centerMode: true,
     focusOnSelect: true,
@@ -166,7 +100,7 @@ export default function CatalogueDetail({ catalogue, colors, urlOG }: CatalogueD
     verticalSwiping: true,
     infinite: true,
     autoplay: false,
-    slidesToShow: 4,
+    slidesToShow: 2,
     slidesToScroll: 4,
     cssEase: "linear",
     autoplaySpeed: 5000,

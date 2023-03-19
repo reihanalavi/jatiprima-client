@@ -2,6 +2,7 @@ import TestimonialItem from "@/components/molecules/Testimonial Item";
 import React from "react";
 import Slider from "react-slick";
 import { TestimoniTypes } from "@/services/data-types";
+import Arrow from "@/components/atoms/Slider/Arrow";
 
 interface testimoniProps {
   item: TestimoniTypes[];
@@ -12,6 +13,8 @@ export default function Testimoni(props: testimoniProps) {
 
   const sliderSetting = {
     arrows: true,
+    nextArrow: <Arrow right />,
+    prevArrow: <Arrow left />,
     dots: false,
     draggable: true,
     infinite: true,

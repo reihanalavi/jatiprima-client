@@ -11,7 +11,7 @@ export default function TestimonialItem(props: TestimonialItemProps) {
 
   return (
     <>
-      <div className="testimonial-content section background-0">
+      <div className="testimonial-content section background-0 mx-2">
         <div className="item">
           <div className="testimonial-item">
             <TestimonialStar star={star} />

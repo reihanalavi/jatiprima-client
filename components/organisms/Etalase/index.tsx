@@ -8,13 +8,15 @@ import ColorItem from "@/components/atoms/ColorItem";
 import { EtalaseTypes } from "@/services/data-types";
 import Link from "next/link";
 import { NumericFormat } from "react-number-format";
+import CatalogueSliderItems from "@/components/molecules/CatalogueSliderItems";
 
 interface EtalaseProps {
   item: EtalaseTypes[];
+  mobile?: boolean;
 }
 
 export default function Etalase(props: EtalaseProps) {
-  const {item} = props
+  const {item, mobile} = props
 
   const [quickView, setQuickView] = useState(false)
   const [qty, setQty] = useState(1)
@@ -156,51 +158,149 @@ export default function Etalase(props: EtalaseProps) {
 
   }, [wishlists])
 
+  const sliderSetting2 = {
+    arrow: true,
+    nextArrow: <Arrow right />,
+    prevArrow: <Arrow left />,
+    dots: false,
+    draggable: true,
+    infinite: true,
+    autoplay: false,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    cssEase: "linear",
+    autoplaySpeed: 5000,
+    pauseOnHover: !1,
+    pauseOnFocus: !1,
+    responsive: [
+      {
+        breakpoint: 1441,
+        settings: {
+          slidesToShow: 5,
+          slidesToScroll: 5,
+        },
+      },
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 4,
+        },
+      },
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 5,
+          slidesToScroll: 5,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          vertical: !1,
+          verticalSwiping: !1,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          vertical: !1,
+          verticalSwiping: !1,
+        },
+      },
+    ],
+  };
+
   return (
     <>
       <section className="section section-padding">
-        <div className="section-container">
-          {/* <!-- Block Products --> */}
-          <div className="block block-products">
-            <div className="block-widget-wrap">
-              <ul className="nav nav-tabs layout-2" role="tablist">
-                <li className="nav-item">
-                  <a
-                    className="nav-link active"
-                    data-toggle="tab"
-                    href="#catalogues"
-                    role="tab"
-                  >
-                    Catalogues
-                  </a>
-                </li>
-              </ul>
-              <div className="tab-content">
-                <div
-                  className="tab-pane fade show active"
-                  id="catalogues"
-                  role="tabpanel"
+        {mobile ? 
+        <div className="d-sm-block d-md-none">
+        {/* <!-- Block Products --> */}
+        <div className="block block-products">
+          <div className="block-widget-wrap">
+            <ul className="nav nav-tabs layout-2" role="tablist">
+              <li className="nav-item">
+                <a
+                  className="nav-link active"
+                  data-toggle="tab"
+                  href="#catalogues"
+                  role="tab"
                 >
-                  <div className="products-list grid">
-                    <div className="row">
-                      {item.map((item: EtalaseTypes) => (
-                        <CatalogueItems
-                        id={item._id}
-                        name={item.name}
-                        foto={item.foto}
-                        price={item.price}
-                        arrival={item.arrival}
-                        onClick={
-                          () => openQuickView(item)
-                          } />
-                      ))}
-                    </div>
+                  Catalogues
+                </a>
+              </li>
+            </ul>
+            <div className="tab-content">
+            <Slider
+                    {...sliderSetting2}
+                    className="slick-sliders"
+                  >
+                    {item.map((item: EtalaseTypes) => (
+                      <CatalogueSliderItems
+                      id={item._id}
+                      name={item.name}
+                      foto={item.foto}
+                      price={item.price}
+                      arrival={item.arrival}
+                      onClick={
+                        () => openQuickView(item)
+                        } />
+                    ))}
+                  </Slider>
+            </div>
+          </div>
+        </div>
+      </div>
+      : 
+        <div className="section-container d-none d-xl-block d-lg-block">
+        {/* <!-- Block Products --> */}
+        <div className="block block-products">
+          <div className="block-widget-wrap">
+            <ul className="nav nav-tabs layout-2" role="tablist">
+              <li className="nav-item">
+                <a
+                  className="nav-link active"
+                  data-toggle="tab"
+                  href="#catalogues"
+                  role="tab"
+                >
+                  Catalogues
+                </a>
+              </li>
+            </ul>
+            <div className="tab-content">
+              <div
+                className="tab-pane fade show active"
+                id="catalogues"
+                role="tabpanel"
+              >
+                <div className="products-list grid">
+                  <div className="row">
+                    {item.map((item: EtalaseTypes) => (
+                      <CatalogueItems
+                      id={item._id}
+                      name={item.name}
+                      foto={item.foto}
+                      price={item.price}
+                      arrival={item.arrival}
+                      onClick={
+                        () => openQuickView(item)
+                        } />
+                    ))}
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+      </div>
+        }
+        
 
         {/* <!-- Quickview --> */}
         <div className={quickViewClass}>

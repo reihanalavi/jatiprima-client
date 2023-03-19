@@ -77,6 +77,7 @@ export default function Page() {
 
                 <Collection item={categories} />
 
+                <Etalase mobile item={catalogues} />
                 <Etalase item={catalogues} />
 
                 <Testimoni item={testimonies} />

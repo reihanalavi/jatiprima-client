@@ -16,6 +16,7 @@ import debouce from "lodash.debounce";
 import { getCatalogueByCategory } from "@/services/apiservice";
 import SearchHeaderItems from "@/components/molecules/SearchHeaderItems";
 import SearchSidebarItems from "@/components/molecules/SearchSidebarItems";
+import Image from "next/image";
 
 interface HeaderProps {
   menus: MenusProps[];
@@ -287,7 +288,10 @@ export default function Header(props: Partial<HeaderProps>) {
                         }}
                       >
                         <div className="icons-cart">
-                          <i className="icon-large-paper-bag"></i>
+                          {/* <i className="icon-large-paper-bag"></i> */}
+                          <span>
+                                  <Image alt='cart-vector' width={30} height={30} src="/cart.svg"></Image>
+                                  </span>
                           <span className={cartCountClass}>
                             {wishlistsItem}
                           </span>
@@ -479,7 +483,10 @@ export default function Header(props: Partial<HeaderProps>) {
                             }}
                           >
                             <div className="icons-cart">
-                              <i className="icon-large-paper-bag"></i>
+                              {/* <i className="icon-large-paper-bag"></i> */}
+                              <span>
+                                  <Image alt='cart-vector' width={30} height={30} src="/cart.svg"></Image>
+                                  </span>
                               <span className={cartCountClass}>
                                 {wishlistsItem}
                               </span>
