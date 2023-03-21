@@ -332,7 +332,7 @@ export default function Header(props: Partial<HeaderProps>) {
                                 <NumericFormat
                                   value={totalWishlists}
                                   displayType="text"
-                                  prefix="Rp "
+                                  prefix="$"
                                   thousandSeparator=","
                                   decimalSeparator="."
                                 />
@@ -530,7 +530,7 @@ export default function Header(props: Partial<HeaderProps>) {
                                     <NumericFormat
                                       value={totalWishlists}
                                       displayType="text"
-                                      prefix="Rp "
+                                      prefix="$"
                                       thousandSeparator=","
                                       decimalSeparator="."
                                     />

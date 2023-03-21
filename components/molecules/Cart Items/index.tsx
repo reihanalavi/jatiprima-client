@@ -20,7 +20,7 @@ export default function CartItems(props: CartItemsProps) {
         </Link>
         <div className="quantity">Qty: {cart.quantity}</div>
         <div className="price">
-        <NumericFormat value={parseInt(cart.item.price) * cart.quantity} displayType='text' prefix='Rp ' thousandSeparator=',' decimalSeparator='.'/>
+        <NumericFormat value={parseInt(cart.item.price) * cart.quantity} displayType='text' prefix='$' thousandSeparator=',' decimalSeparator='.'/>
         </div>
       </li>
     </>

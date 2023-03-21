@@ -30,7 +30,7 @@ export default function SearchHeaderItems(props: SearchHeaderItemsProps) {
             <NumericFormat
               value={parseInt(item?.price!)}
               displayType="text"
-              prefix="Rp "
+              prefix="$"
               thousandSeparator=","
               decimalSeparator="."
             />

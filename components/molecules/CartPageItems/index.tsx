@@ -38,7 +38,7 @@ export default function CartPageItems(props: CartPageProps) {
           <NumericFormat
             value={parseInt(cart?.item.price || "")}
             displayType="text"
-            prefix="Rp "
+            prefix="$"
             thousandSeparator=","
             decimalSeparator="."
           />
@@ -55,7 +55,7 @@ export default function CartPageItems(props: CartPageProps) {
             <NumericFormat
               value={parseInt(cart?.item.price || "") * cart?.quantity!}
               displayType="text"
-              prefix="Rp "
+              prefix="$"
               thousandSeparator=","
               decimalSeparator="."
             />

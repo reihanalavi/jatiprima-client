@@ -35,7 +35,7 @@ export default function CatalogueSliderItems(props: EtalaseItemProps) {
                   <Link href={`/catalogue/${id}/detail`}>{name}</Link>
                 </h3>
                 <span className="price">
-                  <NumericFormat value={parseInt(price)} displayType='text' prefix='Rp ' thousandSeparator=',' decimalSeparator='.'/>
+                  <NumericFormat value={parseInt(price)} displayType='text' prefix='$' thousandSeparator=',' decimalSeparator='.'/>
                   </span>
               </div>
             </div>

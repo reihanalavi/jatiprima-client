@@ -1,19 +1,15 @@
-import React from 'react'
-import Link from 'next/link'
-import Arrow from '@/components/atoms/Slider/Arrow'
-import Image from 'next/image';
+import React from "react";
+import Link from "next/link";
+import Arrow from "@/components/atoms/Slider/Arrow";
+import Image from "next/image";
+import Slider from "react-slick";
 export default function Hero() {
   const sliderSetting = {
-    arrow: true,
-    nextArrow: <Arrow right />,
-    prevArrow: <Arrow left />,
     dots: true,
     nav: false,
     draggable: true,
-    centerMode: true,
+    // centerMode: true,
     focusOnSelect: true,
-    vertical: true,
-    verticalSwiping: true,
     infinite: true,
     autoplay: true,
     slidesToShow: 1,
@@ -67,9 +63,14 @@ export default function Hero() {
 
   return (
     <>
-    <section className="section m-b-0">
+    {/* Header Video */}
+      {/* <section className="section m-b-0">
+          <video src="/media/tesvideo.mp4" autoPlay loop width={'100%'} className="m-b-0 p-b-0"/>
+      </section> */}
+
+      {/* Header Biasa */}
+      <section className="section m-b-0">
   
-    {/* <!-- Block Parallax --> */}
     <div className="block block-parallax">
         <div className="content">
         <h4 className="subtitle">The premium of</h4>
@@ -80,5 +81,5 @@ export default function Hero() {
     </div>
     </section>
     </>
-  )
+  );
 }

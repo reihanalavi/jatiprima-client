@@ -29,7 +29,7 @@ export default function SearchSidebarItems(props: SearchSidebarItemsProps) {
             <NumericFormat
               value={parseInt(item?.price!)}
               displayType="text"
-              prefix="Rp "
+              prefix="$"
               thousandSeparator=","
               decimalSeparator="."
             />

@@ -30,7 +30,7 @@ export default function CheckoutItems(props: CartPageProps) {
           <NumericFormat
             value={parseInt(cart?.item.price || "")}
             displayType="text"
-            prefix="Rp "
+            prefix="$"
             thousandSeparator=","
             decimalSeparator="."
           />

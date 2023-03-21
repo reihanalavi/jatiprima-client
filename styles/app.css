@@ -1212,7 +1212,7 @@ ul.slick-dots {
 }
 
 ul.slick-dots li {
-  display: inline-block;
+  display: flex;
   vertical-align: bottom;
   margin: 0 6px;
   width: 9px;

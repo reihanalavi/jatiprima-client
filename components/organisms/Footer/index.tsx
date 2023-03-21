@@ -35,10 +35,10 @@ export default function Footer() {
                           <br />
                         </li>
                         <li>
-                          <Link href={''}>+62 8213-4938-383</Link>
+                          <Link href={'tel:6282134938383'}>Phone: +62 8213-4938-383</Link>
                         </li>
                         <li>
-                          <Link href={''}>jatiprimafurniture@gmail.com</Link>
+                          <Link href={'mailto:jatiprimafurniture@gmail.com'}>Email: jatiprimafurniture@gmail.com</Link>
                         </li>
                       </ul>
                     </div>

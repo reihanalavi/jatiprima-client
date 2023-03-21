@@ -494,7 +494,7 @@ export default function Checkout(props: ok) {
                                         <NumericFormat
                                           value={totalWishlists || 0}
                                           displayType="text"
-                                          prefix="Rp "
+                                          prefix="$"
                                           thousandSeparator=","
                                           decimalSeparator="."
                                         />
@@ -537,7 +537,7 @@ export default function Checkout(props: ok) {
                                           <NumericFormat
                                             value={totalWishlists || 0}
                                             displayType="text"
-                                            prefix="Rp "
+                                            prefix="$"
                                             thousandSeparator=","
                                             decimalSeparator="."
                                           />

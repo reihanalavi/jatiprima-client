@@ -173,7 +173,7 @@ export default function Cart() {
                                         <NumericFormat
                                           value={totalWishlists || 0}
                                           displayType="text"
-                                          prefix="Rp "
+                                          prefix="$"
                                           thousandSeparator=","
                                           decimalSeparator="."
                                         />

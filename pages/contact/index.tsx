@@ -87,7 +87,7 @@ export default function Contact() {
 																	<h2>Phone</h2>
 																</div>
 																<div className="item-content">
-																	0821 3493 8383
+																	+62 8213-4938-383
 																</div>
 															</div>
 														</div>

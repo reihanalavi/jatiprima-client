@@ -392,7 +392,7 @@ export default function CatalogueDetail({ catalogue, colors, urlOG }: CatalogueD
                                   <NumericFormat
                                     value={parseInt(catalogue?.price!)}
                                     displayType="text"
-                                    prefix="Rp "
+                                    prefix="$"
                                     thousandSeparator=","
                                     decimalSeparator="."
                                   />

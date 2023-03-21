@@ -394,7 +394,7 @@ export default function Catalogues() {
                         <div className="price-single">
                           <div className="price">
                             <span>
-                            <NumericFormat value={parseInt(qvItem?.price || '')} displayType='text' prefix='Rp ' thousandSeparator=',' decimalSeparator='.'/>
+                            <NumericFormat value={parseInt(qvItem?.price || '')} displayType='text' prefix='$' thousandSeparator=',' decimalSeparator='.'/>
                               </span>
                           </div>
                         </div>
