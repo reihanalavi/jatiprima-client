@@ -1,5 +1,6 @@
 import { getHome } from '@/services/apiservice';
 import React, { useCallback, useEffect, useState } from 'react'
+import About from '../About';
 import Collection from "../Collection";
 import Etalase from "../Etalase";
 import Footer from "../Footer";
@@ -75,7 +76,8 @@ export default function Page() {
 
                 {(arrivals && numArrival >= 1 ? <Sale item={catalogues}/> : '')}
 
-                <Collection item={categories} />
+                {/* <Collection item={categories} /> */}
+                {/* <About/> */}
 
                 <Etalase mobile item={catalogues} />
                 <Etalase item={catalogues} />

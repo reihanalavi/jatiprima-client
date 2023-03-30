@@ -550,7 +550,7 @@ input:-webkit-autofill {
 }
 
 .section.contact-background {
-  background-image: url(/media/banner/contact-bg.jpg);
+  /* background-image: url(/media/hero_jp.jpeg); */
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -12065,7 +12065,7 @@ ul.slick-dots li.slick-active button {
 #site-footer {
   border-top: 1px solid #E5E5E5;
   padding-top: 70px;
-  margin-top: 70px;
+  /* margin-top: 70px; */
   color: #868686;
 }
 

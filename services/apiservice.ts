@@ -85,3 +85,21 @@ export async function createCheckout(payloads: string) {
 
     return axiosResponse
 }
+
+export async function createMessage(payloads: string) {
+
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        }
+    }
+    
+    const ENDPOINT = `message`;
+    const response = await axios.post(`${ROOT_API}/${API_V}/${ENDPOINT}`, payloads, config);
+
+    const axiosResponse = response.data
+
+
+    return axiosResponse
+}

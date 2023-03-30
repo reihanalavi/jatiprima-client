@@ -1,10 +1,12 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import Header from '@/components/organisms/Header'
 import Link from 'next/link';
 import Footer from '@/components/organisms/Footer';
 import BackToTop from '@/components/molecules/Back To Top';
 import Head from 'next/head';
+import cx from 'classnames'
+import { createMessage } from '@/services/apiservice';
 
 export default function Contact() {
     const menus = [
@@ -26,6 +28,36 @@ export default function Contact() {
 		},
 	  ];
 
+	const [sent, setSent] = useState(false);
+
+	const successClass = cx({
+	  "form-login-register": true,
+	  active: sent,
+	});
+	
+	const [name, setName] = useState("");
+	const [email, setEmail] = useState("");
+	const [message, setMessage] = useState("");
+
+	function handlePayload() {
+
+  
+	  const payload = {
+		name,
+		email,
+		msg: message
+	  };
+  
+	  postMessage(payload as any);
+	}
+
+	const postMessage = useCallback(async (payloads: string) => {
+		const data = await createMessage(payloads);
+		if (data.data) {
+		  setSent(true);
+		}
+	  }, []);
+	
   return (
     <>
 	<Head>
@@ -120,6 +152,53 @@ export default function Contact() {
 									</div>
 								</section>
 
+								<section className="section section-padding background-10 contact-background m-b-0">
+									<div className="section-container small">
+										{/* <!-- Block Contact Form --> */}
+										<div className="block block-contact-form">
+											<div className="block-widget-wrap">
+												<div className="block-title">
+													<h2>Send Us Your Questions!</h2>
+													<div className="sub-title">We’ll get back to you within two days.</div>
+												</div>
+												<div className="block-content">
+													<div>
+													<div className="contact-us-form">
+															<div className="row">
+																<div className="col-sm-12 col-md-6">
+															        <label className="required">Name</label><br/>
+															        <span className="form-control-wrap">
+															        	<input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} size={40} className="form-control" aria-required="true"/>
+															        </span>
+															    </div>
+																<div className="col-sm-12 col-md-6">
+															        <label className="required">Email</label><br/>
+															        <span className="form-control-wrap">
+														        		<input type="email" name="email" value={email} onChange={(e) => setEmail(e.target.value)} size={40} className="form-control" aria-required="true"/>
+														        	</span>
+															    </div>
+															</div>
+															<div className="row">
+																<div className="col-sm-12">
+																	<label className="required">Message</label><br/>
+																	<span className="form-control-wrap">
+																		<textarea name="message" value={message} onChange={(e) => setMessage(e.target.value)} cols={40} rows={10} className="form-control" aria-required="true"></textarea>
+																	</span>
+																</div>
+															</div>
+															<div className="form-button">
+												      			<a onClick={() => handlePayload()} type="submit" className="button">Submit</a><span/>
+															</div>
+														</div>
+													</div>
+													<form action="" method="post" className="contact-form" noValidate>	
+													</form>
+												</div>
+											</div>
+										</div>
+									</div>
+								</section>
+
 							</div>
 						</div>
                         {/* <!-- #content --> */}
@@ -128,6 +207,38 @@ export default function Contact() {
 				</div>
                 {/* <!-- #main-content --> */}
 			</div>
+
+			<div className="col-xl-3 col-lg-4 col-md-12 col-sm-12 col-12 header-right">
+          <div className="header-page-link">
+            {/* <!-- Login --> */}
+            <div className="login-header">
+              <div className={successClass}>
+                <div className="box-form-login">
+                  <div className="box-content">
+                    <div
+                      className="form-login active"
+                      style={{ padding: "20px" }}
+                    >
+                      <h2>Success</h2>
+                      <p className="status"></p>
+                      <div className="content">
+                        <p>
+                          Your message has been sent and we will soon respond.
+                        </p>
+                      </div>
+                      <Link
+                        className="button alt single-place-order"
+                        href="/"
+                      >
+                        Back
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
 			<Footer/>
 		</div>

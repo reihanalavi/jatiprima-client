@@ -70,7 +70,7 @@ export default function Testimoni(props: testimoniProps) {
 
   return (
     <>
-      <section className="section section-padding background-10 p-t-70 p-b-70 m-b-70">
+      <section className="section section-padding background-10 p-t-70 p-b-70 m-b-0">
         <div className="section-container">
           {/* <!-- Block Testimonial --> */}
           <div className="block block-testimonial layout-2">
