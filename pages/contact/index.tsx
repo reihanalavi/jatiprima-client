@@ -119,7 +119,7 @@ export default function Contact() {
 																	<h2>Phone</h2>
 																</div>
 																<div className="item-content">
-																	+62 8213-4938-383
+																<Link href={'tel:6282134938383'}>+62 8213-4938-383</Link>
 																</div>
 															</div>
 														</div>
@@ -141,7 +141,7 @@ export default function Contact() {
 																	<h2>Email</h2>
 																</div>
 																<div className="item-content small-width">
-																jatiprimafurniture@gmail.com
+																<Link href={'mailto:jatiprimafurniture@gmail.com'}>jatiprimafurniture@gmail.com</Link>
 																</div>
 															</div>
 														</div>
