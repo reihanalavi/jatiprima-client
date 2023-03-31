@@ -129,7 +129,7 @@ export default function Contact() {
 																	<h2>Customer Service</h2>
 																</div>
 																<div className="item-content">
-																	<p>Monday to Friday</p>
+																	<p>Monday to Saturday</p>
 																	<p>8:00am – 4:00pm Jepara, Indonesia (GMT +7)</p>
 																	<p>Sunday closed</p>
 																</div>
