@@ -77,7 +77,7 @@ export default function Page() {
                 {(arrivals && numArrival >= 1 ? <Sale item={catalogues}/> : '')}
 
                 {/* <Collection item={categories} /> */}
-                {/* <About/> */}
+                <About/>
 
                 <Etalase mobile item={catalogues} />
                 <Etalase item={catalogues} />
