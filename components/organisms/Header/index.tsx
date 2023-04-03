@@ -385,7 +385,7 @@ export default function Header(props: Partial<HeaderProps>) {
             <div className="section-padding">
               <div className="section-container large p-l-r">
                 <div className="row">
-                  <div className="col-xl-6 col-lg-8 col-md-12 col-sm-12 col-12 header-left">
+                  <div className="col-xl-6 col-lg-8 col-md-12 col-sm-12 col-12 header-left d-flex align-items-center">
                     <Logo />
 
                     <div className="site-navigation">

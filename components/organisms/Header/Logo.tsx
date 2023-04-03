@@ -13,7 +13,7 @@ export default function Logo(props: LogoProps) {
       <div className="site-logo">
         <Link href='/'>
           <Image
-            width={mobile ? 50 : 20}
+            width={mobile ? 30 : 50}
             height={mobile ? 15 : 50}
             src="/media/jp_logo.png"
             alt="Jati Prima Furniture"
