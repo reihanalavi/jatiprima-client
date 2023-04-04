@@ -75,7 +75,7 @@ export default function Hero() {
         <div className="content">
         <h4 className="subtitle">The premium of</h4>
         <h2 className="title">Jati Prima Furniture</h2>
-        <div className="description">Only made for you</div>
+        <div className="description">Bringing Comfort to Your Place, One Piece at a Time</div>
         <Link className="button button-white" href="/catalogues">SHOP NOW</Link>
         </div>
     </div>
