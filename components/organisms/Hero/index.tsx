@@ -64,21 +64,21 @@ export default function Hero() {
   return (
     <>
     {/* Header Video */}
-      {/* <section className="section m-b-0">
-          <video src="/media/tesvideo.mp4" autoPlay loop width={'100%'} className="m-b-0 p-b-0"/>
-      </section> */}
+      <section className="section m-b-0">
+          <video src="/media/jatiprima-video.mp4" autoPlay loop width={'100%'} className="m-b-0 p-b-0"/>
+      </section>
 
       {/* Header Biasa */}
       <section className="section m-b-0">
   
-    <div className="block block-parallax">
+    {/* <div className="block block-parallax">
         <div className="content">
         <h4 className="subtitle">The premium of</h4>
         <h2 className="title">Jati Prima Furniture</h2>
         <div className="description">Bringing Comfort to Your Place, One Piece at a Time</div>
         <Link className="button button-white" href="/catalogues">SHOP NOW</Link>
         </div>
-    </div>
+    </div> */}
     </section>
     </>
   );
