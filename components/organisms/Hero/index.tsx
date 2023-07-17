@@ -1,9 +1,5 @@
-import React from "react";
-import Link from "next/link";
-import Arrow from "@/components/atoms/Slider/Arrow";
-import Image from "next/image";
-import Slider from "react-slick";
 export default function Hero() {
+
   const sliderSetting = {
     dots: true,
     nav: false,
@@ -63,15 +59,23 @@ export default function Hero() {
 
   return (
     <>
-    {/* Header Video */}
+      {/* Header Video */}
       <section className="section m-b-0">
-          <video src="/media/jatiprima-video.mp4" autoPlay loop width={'100%'} className="m-b-0 p-b-0"/>
+        <video
+        controls={false}
+          autoPlay={true}
+          muted={true}
+          loop
+          width={"100%"}
+          className="m-b-0 p-b-0"
+        >
+          <source src={"/media/hero.mp4"} type="video/mp4" />
+        </video>
       </section>
 
       {/* Header Biasa */}
       <section className="section m-b-0">
-  
-    {/* <div className="block block-parallax">
+        {/* <div className="block block-parallax">
         <div className="content">
         <h4 className="subtitle">The premium of</h4>
         <h2 className="title">Jati Prima Furniture</h2>
@@ -79,7 +83,7 @@ export default function Hero() {
         <Link className="button button-white" href="/catalogues">SHOP NOW</Link>
         </div>
     </div> */}
-    </section>
+      </section>
     </>
   );
 }
