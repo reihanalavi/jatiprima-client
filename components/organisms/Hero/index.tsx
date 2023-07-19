@@ -68,8 +68,8 @@ export default function Hero() {
           loop
           width={"100%"}
           className="m-b-0 p-b-0"
+          src={"/media/hero.mp4"}
         >
-          <source src={"/media/hero.mp4"} type="video/mp4" />
         </video>
       </section>
 
