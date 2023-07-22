@@ -32,10 +32,12 @@ export default function Etalase(props: EtalaseProps) {
   const [addToCart, setAddToCart] = useState(false);
 
   const etalaseClass = cx({
-    "d-sm-block d-md-block": true,
+    "d-sm-block d-md-block d-lg-block d-xl-block": scrolling === false,
+    "d-xl-none": scrolling === true,
     "d-lg-none": scrolling === true,
     "d-sm-none": scrolling === true,
     "d-md-none": scrolling === true,
+    "d-none": scrolling === true,
   });
 
   const addToCartClass = cx({
@@ -261,7 +263,7 @@ export default function Etalase(props: EtalaseProps) {
             </div>
           </div>
         ) : (
-          <div className="section-container d-none d-xl-block d-lg-block">
+          <div className={etalaseClass}>
             {/* <!-- Block Products --> */}
             <div className="block block-products">
               <div className="block-widget-wrap">
