@@ -13,28 +13,36 @@ import CatalogueSliderItems from "@/components/molecules/CatalogueSliderItems";
 interface EtalaseProps {
   item: EtalaseTypes[];
   mobile?: boolean;
+  scrolling?: boolean;
 }
 
 export default function Etalase(props: EtalaseProps) {
-  const {item, mobile} = props
+  const { item, mobile, scrolling } = props;
 
-  const [quickView, setQuickView] = useState(false)
-  const [qty, setQty] = useState(1)
+  const [quickView, setQuickView] = useState(false);
+  const [qty, setQty] = useState(1);
 
-  const [qvItem, setQvItem] = useState<EtalaseTypes>()
+  const [qvItem, setQvItem] = useState<EtalaseTypes>();
 
-  const [colors, setColors] = useState<any>()
-  const [activeColor, setActiveColor] = useState<any>()
+  const [colors, setColors] = useState<any>();
+  const [activeColor, setActiveColor] = useState<any>();
 
-  const [wishlists, setWishlists] = useState<any>([])
+  const [wishlists, setWishlists] = useState<any>([]);
 
-  const [addToCart, setAddToCart] = useState(false)
+  const [addToCart, setAddToCart] = useState(false);
+
+  const etalaseClass = cx({
+    "d-sm-block d-md-block": true,
+    "d-lg-none": scrolling === true,
+    "d-sm-none": scrolling === true,
+    "d-md-none": scrolling === true,
+  });
 
   const addToCartClass = cx({
     "button alt": true,
     "single-add-to-cart-button": addToCart === false,
     "single-added-to-cart-button": addToCart === true,
-  })
+  });
 
   const quickViewClass = cx({
     "quickview-popup": true,
@@ -96,67 +104,65 @@ export default function Etalase(props: EtalaseProps) {
   };
 
   function handleStock(code: Number) {
-    if(code > 0) {
+    if ((code as number) > 0) {
       //increment
-      setQty(qty + 1)
+      setQty(qty + 1);
     } else {
       //decrement
-      if(qty > 1) {
-        setQty(qty - 1)
+      if (qty > 1) {
+        setQty(qty - 1);
       }
     }
   }
 
-  const initialRender = useRef(true)
+  const initialRender = useRef(true);
 
   function openQuickView(item: EtalaseTypes) {
-    setQvItem(item)
-    setQuickView(true)
-    setColors(item.warnas)
-    setActiveColor(item.warnas.at(0)?.name)
+    setQvItem(item);
+    setQuickView(true);
+    setColors(item.warnas);
+    setActiveColor(item.warnas.at(0)?.name);
   }
 
   function addItemToCart(item: EtalaseTypes) {
-    if(!addToCart) {
+    if (!addToCart) {
       const itemModified = {
         item,
         warna: activeColor,
-        quantity: qty
-      }
-      setWishlists((current: any) => [itemModified, ...current])
-      setAddToCart(true)
+        quantity: qty,
+      };
+      setWishlists((current: any) => [itemModified, ...current]);
+      setAddToCart(true);
     }
   }
 
   function resetQuickView() {
-    setQuickView(false)
-    setQty(1)
-    setAddToCart(false)
+    setQuickView(false);
+    setQty(1);
+    setAddToCart(false);
   }
 
   useEffect(() => {
-
-    const saved = localStorage.getItem("wishlists")
-    if(saved) {
-      if(JSON.parse(saved || [] as never)) {
-        const parsedSaved = JSON.parse(saved || [] as never)
-        setWishlists([...wishlists, ...parsedSaved])
+    const saved = localStorage.getItem("wishlists");
+    if (saved) {
+      if (JSON.parse(saved || ([] as never))) {
+        const parsedSaved = JSON.parse(saved || ([] as never));
+        setWishlists([...wishlists, ...parsedSaved]);
       } else {
-        localStorage.setItem("wishlists", "[]")
+        localStorage.setItem("wishlists", "[]");
       }
     } else {
-      localStorage.setItem("wishlists", "[]")
+      localStorage.setItem("wishlists", "[]");
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    if(initialRender.current) {
-      initialRender.current = false
-      return
+    if (initialRender.current) {
+      initialRender.current = false;
+      return;
     }
-    localStorage.setItem("wishlists", JSON.stringify(wishlists))
-
-  }, [wishlists])
+    localStorage.setItem("wishlists", JSON.stringify(wishlists));
+  }, [wishlists]);
 
   const sliderSetting2 = {
     arrow: true,
@@ -166,8 +172,8 @@ export default function Etalase(props: EtalaseProps) {
     draggable: true,
     infinite: true,
     autoplay: false,
-    slidesToShow: 4,
-    slidesToScroll: 4,
+    slidesToShow: 3,
+    slidesToScroll: 1,
     cssEase: "linear",
     autoplaySpeed: 5000,
     pauseOnHover: !1,
@@ -176,8 +182,8 @@ export default function Etalase(props: EtalaseProps) {
       {
         breakpoint: 1441,
         settings: {
-          slidesToShow: 5,
-          slidesToScroll: 5,
+          slidesToShow: 4,
+          slidesToScroll: 4,
         },
       },
       {
@@ -190,8 +196,10 @@ export default function Etalase(props: EtalaseProps) {
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 5,
-          slidesToScroll: 5,
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          vertical: !1,
+          verticalSwiping: !1,
         },
       },
       {
@@ -218,89 +226,83 @@ export default function Etalase(props: EtalaseProps) {
   return (
     <>
       <section className="section section-padding">
-        {mobile ? 
-        <div className="d-sm-block d-md-none">
-        {/* <!-- Block Products --> */}
-        <div className="block block-products">
-          <div className="block-widget-wrap">
-            <ul className="nav nav-tabs layout-2" role="tablist">
-              <li className="nav-item">
-                <a
-                  className="nav-link active"
-                  data-toggle="tab"
-                  href="#catalogues"
-                  role="tab"
-                >
-                  Catalogues
-                </a>
-              </li>
-            </ul>
-            <div className="tab-content">
-            <Slider
-                    {...sliderSetting2}
-                    className="slick-sliders"
-                  >
+        {mobile ? (
+          <div className={etalaseClass}>
+            {/* <!-- Block Products --> */}
+            <div className="block block-products">
+              <div className="block-widget-wrap">
+                <ul className="nav nav-tabs layout-2" role="tablist">
+                  <li className="nav-item">
+                    <a
+                      className="nav-link active"
+                      data-toggle="tab"
+                      href="#catalogues"
+                      role="tab"
+                    >
+                      Catalogues
+                    </a>
+                  </li>
+                </ul>
+                <div className="tab-content slick-wrap">
+                  <Slider {...sliderSetting2} className="slick-sliders">
                     {item.map((item: EtalaseTypes) => (
                       <CatalogueSliderItems
-                      id={item._id}
-                      name={item.name}
-                      foto={item.foto}
-                      price={item.price}
-                      arrival={item.arrival}
-                      onClick={
-                        () => openQuickView(item)
-                        } />
+                        id={item._id}
+                        name={item.name}
+                        foto={item.foto}
+                        price={item.price}
+                        arrival={item.arrival}
+                        onClick={() => openQuickView(item)}
+                      />
                     ))}
                   </Slider>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      : 
-        <div className="section-container d-none d-xl-block d-lg-block">
-        {/* <!-- Block Products --> */}
-        <div className="block block-products">
-          <div className="block-widget-wrap">
-            <ul className="nav nav-tabs layout-2" role="tablist">
-              <li className="nav-item">
-                <a
-                  className="nav-link active"
-                  data-toggle="tab"
-                  href="#catalogues"
-                  role="tab"
-                >
-                  Catalogues
-                </a>
-              </li>
-            </ul>
-            <div className="tab-content">
-              <div
-                className="tab-pane fade show active"
-                id="catalogues"
-                role="tabpanel"
-              >
-                <div className="products-list grid">
-                  <div className="row">
-                    {item.map((item: EtalaseTypes) => (
-                      <CatalogueItems
-                      id={item._id}
-                      name={item.name}
-                      foto={item.foto}
-                      price={item.price}
-                      arrival={item.arrival}
-                      onClick={
-                        () => openQuickView(item)
-                        } />
-                    ))}
+        ) : (
+          <div className="section-container d-none d-xl-block d-lg-block">
+            {/* <!-- Block Products --> */}
+            <div className="block block-products">
+              <div className="block-widget-wrap">
+                <ul className="nav nav-tabs layout-2" role="tablist">
+                  <li className="nav-item">
+                    <a
+                      className="nav-link active"
+                      data-toggle="tab"
+                      href="#catalogues"
+                      role="tab"
+                    >
+                      Catalogues
+                    </a>
+                  </li>
+                </ul>
+                <div className="tab-content">
+                  <div
+                    className="tab-pane fade show active"
+                    id="catalogues"
+                    role="tabpanel"
+                  >
+                    <div className="products-list grid">
+                      <div className="row">
+                        {item.map((item: EtalaseTypes) => (
+                          <CatalogueItems
+                            id={item._id}
+                            name={item.name}
+                            foto={item.foto}
+                            price={item.price}
+                            arrival={item.arrival}
+                            onClick={() => openQuickView(item)}
+                          />
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-        }
-        
+        )}
 
         {/* <!-- Quickview --> */}
         <div className={quickViewClass}>
@@ -309,9 +311,7 @@ export default function Etalase(props: EtalaseProps) {
               <a
                 type="button"
                 className="quickview-close"
-                onClick={() => 
-                  resetQuickView()
-                }
+                onClick={() => resetQuickView()}
               ></a>
               <div className="quickview-notices-wrapper"></div>
               <div className="product single-product product-type-simple">
@@ -362,7 +362,7 @@ export default function Etalase(props: EtalaseProps) {
                         </div>
                       </div>
                     </div>
-                    <div className="quickview-single-info" >
+                    <div className="quickview-single-info">
                       <div className="product-content-detail entry-summary">
                         <h1 className="product-title entry-title">
                           {qvItem?.name}
@@ -370,65 +370,86 @@ export default function Etalase(props: EtalaseProps) {
                         <div className="price-single">
                           <div className="price">
                             <span>
-                            <NumericFormat value={parseInt(qvItem?.price || '')} displayType='text' prefix='$' thousandSeparator=',' decimalSeparator='.'/>
-                              </span>
+                              <NumericFormat
+                                value={parseInt(qvItem?.price || "")}
+                                displayType="text"
+                                prefix="$"
+                                thousandSeparator=","
+                                decimalSeparator="."
+                              />
+                            </span>
                           </div>
                         </div>
                         <div className="description">
-                          <p>
-                            {qvItem?.deskripsi}
-                          </p>
+                          <p>{qvItem?.deskripsi}</p>
                         </div>
                         <div className="variations">
-														<table cellSpacing={0}>
-															<tbody>
-																<tr>
-																	<td className="label">Color</td>
-																	<td className="attributes">
-																		<ul className="colors">
-                                      {qvItem?.warnas.map(item => (
-                                        <ColorItem onClick={() => setActiveColor(item.name)} active={activeColor === item.name} colorCode={item.kode} />
-                                      ))}
-																		</ul>
-																	</td>
-																</tr>
-		        											</tbody>
-														</table>
-													</div>
+                          <table cellSpacing={0}>
+                            <tbody>
+                              <tr>
+                                <td className="label">Color</td>
+                                <td className="attributes">
+                                  <ul className="colors">
+                                    {qvItem?.warnas.map((item) => (
+                                      <ColorItem
+                                        onClick={() =>
+                                          setActiveColor(item.name)
+                                        }
+                                        active={activeColor === item.name}
+                                        colorCode={item.kode}
+                                      />
+                                    ))}
+                                  </ul>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                         <div className="quantity-button cart">
-                            <div className="quantity">
-                              <button type="button" className="plus" onClick={() => handleStock(1)}>
-                                +
-                              </button>
-                              <input
-                                type="number"
-                                className="input-text qty text"
-                                minLength={1}
-                                name="quantity"
-                                value={qty}
-                                title="Qty"
-                                size={4}
-                                placeholder=""
-                                inputMode="numeric"
-                                autoComplete="off"
-                              />
-                              <button type="button" className="minus" onClick={() => handleStock(-1)}>
-                                -
-                              </button>
-                            </div>
+                          <div className="quantity">
                             <button
-                              className={addToCartClass}
-                              onClick={() => addItemToCart(qvItem!)}
+                              type="button"
+                              className="plus"
+                              onClick={() => handleStock(1)}
                             >
-                              {addToCart ? 'Added' : 'Add to Cart'}
+                              +
+                            </button>
+                            <input
+                              type="number"
+                              className="input-text qty text"
+                              minLength={1}
+                              name="quantity"
+                              value={qty}
+                              title="Qty"
+                              size={4}
+                              placeholder=""
+                              inputMode="numeric"
+                              autoComplete="off"
+                            />
+                            <button
+                              type="button"
+                              className="minus"
+                              onClick={() => handleStock(-1)}
+                            >
+                              -
                             </button>
                           </div>
+                          <button
+                            className={addToCartClass}
+                            onClick={() => addItemToCart(qvItem!)}
+                          >
+                            {addToCart ? "Added" : "Add to Cart"}
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="clearfix" onClick={() => setQuickView(false)}></div>
+              <div
+                className="clearfix"
+                onClick={() => setQuickView(false)}
+              ></div>
             </div>
           </div>
         </div>

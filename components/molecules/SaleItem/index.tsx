@@ -8,7 +8,7 @@ export default function SaleItem(props: SaleItemProps) {
   
   return (
     <>
-      <div className="col-md-3 col-sm-6 sm-m-b-30">
+      <div className="col-xl-3 col-md-3 col-sm-4 sm-m-b-30">
         <div className="item-product-cat-content" key={id}>
           <Link href={`/catalogue/${id}/detail`}>
 

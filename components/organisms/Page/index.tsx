@@ -80,10 +80,9 @@ export default function Page() {
                 <About/>
 
                 <Etalase mobile item={catalogues} />
-                <Etalase item={catalogues} />
-
+                {(catalogues.length > 8 ? <Etalase scrolling mobile item={catalogues} /> : <Etalase scrolling item={catalogues}/> )}
+                
                 <Testimoni item={testimonies} />
-
               </div>
             </div>
           </div>

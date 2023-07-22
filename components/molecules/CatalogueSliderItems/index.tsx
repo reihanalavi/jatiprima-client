@@ -8,7 +8,7 @@ export default function CatalogueSliderItems(props: EtalaseItemProps) {
     const {id, name, foto, price, arrival} = props
 
   return (
-    <div className="col-xl-3 col-lg-4 col-md-4 col-sm-6">
+    <div className="col-xl-10 col-lg-10 col-md-10 col-sm-10">
         <div className="items">
           <div className="products-entry clearfix product-wapper">
             <div className="products-thumb">
