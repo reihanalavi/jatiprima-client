@@ -24,7 +24,7 @@ export default function Keys() {
                                 </div>
                               </div>
                             </div>
-                            <div className="col-4 sm-m-b-20">
+                            <div className="col-4 m-m-b-20">
                               <div className="box">
                                 <div className="box-icon">
                                   <span>
