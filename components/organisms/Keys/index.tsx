@@ -10,7 +10,7 @@ export default function Keys() {
                       <div className="block block-feature layout-4">
                         <div className="block-widget-wrap">
                           <div className="row">
-                            <div className="col-md-4 sm-m-b-20">
+                            <div className="col-4 m-m-b-20">
                               <div className="box">
                                 <div className="box-icon">
                                   <span>
@@ -24,7 +24,7 @@ export default function Keys() {
                                 </div>
                               </div>
                             </div>
-                            <div className="col-md-4 sm-m-b-20">
+                            <div className="col-4 sm-m-b-20">
                               <div className="box">
                                 <div className="box-icon">
                                   <span>
@@ -38,7 +38,7 @@ export default function Keys() {
                                 </div>
                               </div>
                             </div>
-                            <div className="col-md-4 sm-m-b-20">
+                            <div className="col-4">
                               <div className="box">
                                 <div className="box-icon">
                                   <span>
